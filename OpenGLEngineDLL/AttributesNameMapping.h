@@ -26,6 +26,7 @@ namespace hiveEngine
 	const std::string VERTEX_SHADER = "VERTEX_SHADER";
 	const std::string FRAGMENT_SHADER = "FRAGMENT_SHADER";
 
+	const std::string LIGHT_DIRECTION = "LIGHT_DIRECTION";
 
 	const std::map<std::string, unsigned int> ProfileMapping = {
 		{"GLFW_OPENGL_CORE_PROFILE", GLFW_OPENGL_CORE_PROFILE},

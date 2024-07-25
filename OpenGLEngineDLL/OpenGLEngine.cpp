@@ -36,17 +36,6 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	};
 
 	m_Mesh.loadData(Vertices, Indices);
-	
-	//__loadShaderConfig();
-}
-std::string readShaderFile(const char* filePath) {
-	std::ifstream file;
-	std::stringstream buffer;
-	file.open(filePath);
-	buffer << file.rdbuf();
-	file.close();
-
-	return buffer.str();
 }
 
 void COpenGLEngine::run()
@@ -55,26 +44,18 @@ void COpenGLEngine::run()
 
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
-
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		/*glUseProgram(ShaderProgram);*/
+		for (const auto& Item : m_AttributesModifiers)
+		{
+			m_EngineConfig.overwriteAttribute(Item.first, Item.second());
+		}
+
 		m_Shader.use();
+		__loadShaderConfig();
 		glBindVertexArray(m_Mesh.getVAO());
 		glDrawElements(GL_TRIANGLES, m_Mesh.getNumIndices(), GL_UNSIGNED_INT, 0);
-		//glBindVertexArray(VAO);
-		//glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
-		// 
-		// 
-
-		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		//glClear(GL_COLOR_BUFFER_BIT);
-
-		//m_Shader.use();
-
-		//glBindVertexArray(m_Mesh.getVAO());
-		//glDrawElements(GL_TRIANGLES, m_Mesh.getNumIndices(), GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(m_pWindow);
 		glfwPollEvents();
@@ -155,41 +136,41 @@ void COpenGLEngine::__adjustWindowSize(GLFWwindow* vWindow, int vWidth, int vHei
 
 void COpenGLEngine::__loadShaderConfig()
 {
-	// TODO: load shader config from file
-	// write in code temporarily
 	m_Shader.use();
+
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 View = glm::mat4(1.0f);
 	float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
 	glm::mat4 Projection = glm::perspective(glm::radians(FOV), (float)800 / 600, ZNear, ZFar);
+	m_Shader.setUniformMatrix4fv("Model", Model);
+	m_Shader.setUniformMatrix4fv("View", View);
+	m_Shader.setUniformMatrix4fv("Projection", Projection);
 
-	m_Shader.setUniformMatrix4fv("model", Model);
-	m_Shader.setUniformMatrix4fv("view", View);
-	m_Shader.setUniformMatrix4fv("projection", Projection);
-
-	// 设置光源方向和颜色
 	glm::vec3 Diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
 	glm::vec3 Specular = glm::vec3(0.1f, 0.1f, 0.1f);
 	glm::vec3 Ambient = glm::vec3(0.3f, 0.3f, 0.3f);
 	glm::vec3 ViewPos = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	//glm::vec3 LightDir = glm::vec3(0.0f, 0.0f, 1.0f);
+	auto [x, y, z] = m_EngineConfig.getAttribute<std::tuple<double, double, double>>(LIGHT_DIRECTION).value();
+	glm::vec3 LightDir = glm::vec3(x, y, z);
 	float Shininess = 100.0f;
-	//GLfloat timeValue = glfwGetTime() * 0.5f;
-	//GLfloat lightDirX = sin(timeValue) * 10.0f;
-	//GLfloat lightDirY = 1.0f;
-	//GLfloat lightDirZ = cos(timeValue) * 10.0f;
+
 	m_Shader.setUniform3fv("Diffuse", Diffuse);
 	m_Shader.setUniform3fv("Specular", Specular);
 	m_Shader.setUniform3fv("Ambient", Ambient);
 	m_Shader.setUniform3fv("ViewPos", ViewPos);
-	m_Shader.setUniform3fv("ightColor", LightColor);
+	m_Shader.setUniform3fv("LightColor", LightColor);
+	m_Shader.setUniform3fv("LightDir", LightDir);
 	m_Shader.setFloatUniform("Shininess", Shininess);
+}
 
-
-	//glm::vec3 lightDir = { lightDirX, lightDirY, lightDirZ };
-	//GLfloat lightColor[3] = { 1.0f, 1.0f, 1.0f };
-	//lightDir = glm::normalize(lightDir);
-
-	//m_Shader.setUniform3fv("lightDir", &lightDir[0]);
-	//m_Shader.setUniform3fv("lightColor", lightColor);
+bool COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
+{
+	if (!m_EngineConfig.isAttributeExisted(vName))
+	{
+		HIVE_LOG_ERROR("Failed to bind, attribute {} is not existed", vName);
+		return false;
+	}
+	m_AttributesModifiers.insert(std::make_pair(vName, vModifier));
 }

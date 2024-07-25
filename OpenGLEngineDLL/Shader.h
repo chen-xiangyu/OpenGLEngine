@@ -1,5 +1,4 @@
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
 #include<glad/glad.h>
 #include "glm/glm.hpp"
@@ -10,7 +9,7 @@ namespace hiveEngine {
 		CShader() = default;
 		~CShader() = default;
 
-		void init(const std::string vertexPath, const std::string fragmentPath); // 构造函数，用于读取着色器文件并编译着色器
+		void init(const std::string vertexPath, const std::string fragmentPath); 
 
 		unsigned int getID(); // 获取着色器ID
 
@@ -27,17 +26,15 @@ namespace hiveEngine {
 		void setUniform3fv(const std::string& name, glm::vec3 value) const;
 
 	private:
-		unsigned int ID; // 着色器ID
-		void checkCompileErrors(unsigned int shader, std::string type); // 检查编译着色器的错误
+		unsigned int m_ID;
+		void checkCompileErrors(unsigned int shader, std::string type);
 
-		std::string getVertexShaderCode(const std::string vertexPath); // 获取顶点着色器代码
+		std::string getVertexShaderCode(const std::string vertexPath);
 
-		std::string getFragmentShaderCode(const std::string fragmentPath); // 获取片段着色器代码
+		std::string getFragmentShaderCode(const std::string fragmentPath);
 
-		unsigned int compileShader(const std::string shaderCode, GLenum shaderType); // 编译着色器
+		unsigned int compileShader(const std::string shaderCode, GLenum shaderType);
 
-		unsigned int createShaderProgram(const std::string vertexShaderCode, const std::string fragmentShaderCode); // 创建着色器程序
+		unsigned int createShaderProgram(const std::string vertexShaderCode, const std::string fragmentShaderCode);
 	};
 }
-
-#endif SHADER_H

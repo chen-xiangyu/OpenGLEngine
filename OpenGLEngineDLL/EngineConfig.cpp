@@ -32,6 +32,7 @@ void CEngineConfig::__defineAttributesV()
 		{INIT_POSITION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC2I},
 
 		{SHADER_CONFIG_FILE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
+		{LIGHT_DIRECTION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC3F},
 
 	};
 	for (const auto& Item : Attributes)
@@ -50,6 +51,7 @@ void CEngineConfig::__loadDefaultConfigV()
 		{SCREEN_HEIGHT, 600},
 		{SCREEN_TITLE, std::string("Learn OpenGL")},
 		{INIT_POSITION, std::tuple<int, int>(100, 200)},
+		{LIGHT_DIRECTION, std::tuple<double, double, double>(0.0, 0.0, 1.0)},
 	};
 	for (const auto& Item : DefaultValue)
 	{
