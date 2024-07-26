@@ -12,7 +12,6 @@
 #define OPENGL_ENGINE_API __declspec(dllimport)
 #endif
 
-
 namespace hiveEngine
 {
 	class OPENGL_ENGINE_API COpenGLEngine
@@ -23,7 +22,7 @@ namespace hiveEngine
 
 		void init(const std::string& vConfigFilename);
 		void run();
-		bool bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier);
+		void bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier);
 
 	private:
 		GLFWwindow* m_pWindow = nullptr;
@@ -31,7 +30,6 @@ namespace hiveEngine
 		CShader m_Shader;
 		CShaderConfig m_ShaderConfig;
 		CMesh m_Mesh;
-		std::map<std::string, std::function<std::any()>> m_AttributesModifiers;
 
 		void __initGLFW();
 		void __initWindow();

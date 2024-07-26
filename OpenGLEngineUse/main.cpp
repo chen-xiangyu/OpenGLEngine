@@ -1,42 +1,29 @@
 #include "pch.h"
 #include "../OpenGLEngineDLL/OpenGLEngine.h"
 
-#include <cmath>
-#include <chrono>
-
-// 获取当前时间的秒数
-double getCurrentTimeSeconds() {
-	auto now = std::chrono::system_clock::now();
-	auto now_seconds = std::chrono::time_point_cast<std::chrono::seconds>(now);
-	auto epoch = now_seconds.time_since_epoch();
-	return static_cast<double>(epoch.count());
+double getCurrentTimeMilliseconds() 
+{
+    auto Now = std::chrono::steady_clock::now();
+    auto Duration = Now.time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(Duration).count();
 }
 
 std::tuple<double, double, double> changeLightDir()
 {
-    double radius = 0.5;
+    double Radius = 1.0, AngularSpeed = 0.001;
 
-    // 圆周运动的速度（角速度）
-    double angularSpeed = 1.0; // 每秒弧度
+    double Time = getCurrentTimeMilliseconds();
 
-    // 获取当前时间的秒数
-    double time = getCurrentTimeSeconds();
+    double Angle = AngularSpeed * Time;
 
-    // 计算当前角度
-    double angle = angularSpeed * time;
+    double X = Radius * std::cos(Angle);
+    double Z = Radius * abs(std::sin(Angle));
+    double Y = 0.0;
 
-    // 计算 x 和 y 坐标
-    double x = radius * std::cos(angle);
-    double y = radius * std::sin(angle);
-
-    // z 坐标保持不变
-    double z = 0.0;
-
-    return std::make_tuple(x, z, y);
+    return std::make_tuple(X, Y, Z);
 }
 int main()
 {
-	std::cout << "hello world\n";
 	hiveEngine::COpenGLEngine Engine;
 	Engine.init("OpenGLConfig.xml");
 	Engine.bindAttributeModifier("LIGHT_DIRECTION", changeLightDir);

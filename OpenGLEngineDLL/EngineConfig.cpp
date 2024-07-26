@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Factory.h"
 #include "CommonMicro.h"
+#include "HiveLogger.h"
 #include "AttributesNameMapping.h"
 #include "AttributesRange.h"
 
@@ -56,6 +57,25 @@ void CEngineConfig::__loadDefaultConfigV()
 	for (const auto& Item : DefaultValue)
 	{
 		setAttribute(Item.first, Item.second);
+	}
+}
+
+bool CEngineConfig::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
+{
+	if (!isAttributeExisted(vName))
+	{
+		HIVE_LOG_ERROR("Failed to bind, attribute {} is not existed", vName);
+		return false;
+	}
+	m_Modifiers.insert(std::make_pair(vName, vModifier));
+	return true;
+}
+
+void CEngineConfig::applyAttributeModifiers()
+{
+	for (const auto& Item : m_Modifiers)
+	{
+		overwriteAttribute(Item.first, Item.second());
 	}
 }
 

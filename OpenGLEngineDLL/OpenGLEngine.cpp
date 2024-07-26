@@ -31,7 +31,7 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 		{{-0.5f,  0.5f, -3.0f},   {1.0f, 1.0f, 0.0f},   {0.0f, 0.0f, 1.0f}},
 	};
 	std::vector<unsigned int> Indices = {
-				0, 1, 2,
+		0, 1, 2,
 		0, 3, 2
 	};
 
@@ -47,10 +47,7 @@ void COpenGLEngine::run()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		for (const auto& Item : m_AttributesModifiers)
-		{
-			m_EngineConfig.overwriteAttribute(Item.first, Item.second());
-		}
+		m_EngineConfig.applyAttributeModifiers();
 
 		m_Shader.use();
 		__loadShaderConfig();
@@ -165,12 +162,7 @@ void COpenGLEngine::__loadShaderConfig()
 	m_Shader.setFloatUniform("Shininess", Shininess);
 }
 
-bool COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
+void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
 {
-	if (!m_EngineConfig.isAttributeExisted(vName))
-	{
-		HIVE_LOG_ERROR("Failed to bind, attribute {} is not existed", vName);
-		return false;
-	}
-	m_AttributesModifiers.insert(std::make_pair(vName, vModifier));
+	m_EngineConfig.bindAttributeModifier(vName, vModifier);
 }
