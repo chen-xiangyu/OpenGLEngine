@@ -79,39 +79,47 @@ void CEngineConfig::applyAttributeModifiers()
 	}
 }
 
-void CEngineConfig::correctVerson()
+void CEngineConfig::validateAttributes()
 {
-	int Major = getAttribute<int>(VERSION_MAJOR).value();
-	int Minor = getAttribute<int>(VERSION_MINOR).value();
+	//m_Validator.registerValidateRegulation<int>(VERSION_MAJOR, [](const int& vValue) -> bool {
+	//	return true;
+	//});
 
-	if (!CVersionRange::isCorrect(std::make_pair(Major, Minor)))
-	{
-		std::pair<int, int> t = CVersionRange::getDefaultValue();
-		overwriteAttribute(VERSION_MAJOR, t.first);
-		overwriteAttribute(VERSION_MINOR, t.second);
-	}
 }
 
-void CEngineConfig::correctProfile()
-{
-	std::string t = getAttribute<std::string>(PROFILE).value();
-
-	if (!CProfileRange::isCorrect(t))
-	{
-		t = CProfileRange::getDefaultValue();
-		overwriteAttribute(PROFILE, t);
-	}
-}
-
-void CEngineConfig::correctScreenSize()
-{
-	int Width = getAttribute<int>(SCREEN_WIDTH).value();
-	int Height = getAttribute<int>(SCREEN_HEIGHT).value();
-
-	if (!CScreenSizeRange::isCorrect(std::make_pair(Width, Height)))
-	{
-		std::pair<int, int> t = CScreenSizeRange::getDefaultValue();
-		overwriteAttribute(SCREEN_WIDTH, t.first);
-		overwriteAttribute(SCREEN_HEIGHT, t.second);
-	}
-}
+//void CEngineConfig::correctVersion()
+//{
+//	int Major = getAttribute<int>(VERSION_MAJOR).value();
+//	int Minor = getAttribute<int>(VERSION_MINOR).value();
+//
+//	if (!CVersionRange::isCorrect(std::make_pair(Major, Minor)))
+//	{
+//		std::pair<int, int> t = CVersionRange::getDefaultValue();
+//		overwriteAttribute(VERSION_MAJOR, t.first);
+//		overwriteAttribute(VERSION_MINOR, t.second);
+//	}
+//}
+//
+//void CEngineConfig::correctProfile()
+//{
+//	std::string t = getAttribute<std::string>(PROFILE).value();
+//
+//	if (!CProfileRange::isCorrect(t))
+//	{
+//		t = CProfileRange::getDefaultValue();
+//		overwriteAttribute(PROFILE, t);
+//	}
+//}
+//
+//void CEngineConfig::correctScreenSize()
+//{
+//	int Width = getAttribute<int>(SCREEN_WIDTH).value();
+//	int Height = getAttribute<int>(SCREEN_HEIGHT).value();
+//
+//	if (!CScreenSizeRange::isCorrect(std::make_pair(Width, Height)))
+//	{
+//		std::pair<int, int> t = CScreenSizeRange::getDefaultValue();
+//		overwriteAttribute(SCREEN_WIDTH, t.first);
+//		overwriteAttribute(SCREEN_HEIGHT, t.second);
+//	}
+//}

@@ -68,6 +68,9 @@
     <ClInclude Include="AttributesModifier.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="AttributeValidator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

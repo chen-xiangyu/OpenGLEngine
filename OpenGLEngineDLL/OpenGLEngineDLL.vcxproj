@@ -148,6 +148,7 @@
     <ClInclude Include="AttributesModifier.h" />
     <ClInclude Include="AttributesNameMapping.h" />
     <ClInclude Include="AttributesRange.h" />
+    <ClInclude Include="AttributeValidator.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OpenGLEngine.h" />
     <ClInclude Include="EngineConfig.h" />

@@ -14,6 +14,7 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 {
 	m_EngineConfig.loadDefaultConfig();
 	hiveConfig::EParseResult Status = hiveConfig::hiveParseConfig(vConfigFilename, hiveConfig::EConfigType::XML, &m_EngineConfig);
+	
 	__initGLFW();
 	__initWindow();
 
@@ -74,21 +75,6 @@ void COpenGLEngine::__initGLFW()
 #ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-	//int GLFWStatus = glfwInit();
-	//if (GLFWStatus == GLFW_FALSE)
-	//{
-	//	HIVE_LOG_ERROR("Failed to initialize GLFW");
-	//	return false;
-	//}
-	//m_EngineConfig.correctVerson();
-	//int Major = m_EngineConfig.getAttribute<int>(VERSION_MAJOR).value();
-	//int Minor = m_EngineConfig.getAttribute<int>(VERSION_MINOR).value();
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Major);
-	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Minor);
-	//m_EngineConfig.correctProfile();
-	//std::string Profile = m_EngineConfig.getAttribute<std::string>(PROFILE).value();
-	//glfwWindowHint(GLFW_OPENGL_PROFILE, ProfileMapping.at(Profile));
-	//return true;
 }
 
 void COpenGLEngine::__initWindow()
@@ -138,7 +124,9 @@ void COpenGLEngine::__loadShaderConfig()
 	glm::mat4 Model = glm::mat4(1.0f);
 	glm::mat4 View = glm::mat4(1.0f);
 	float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
-	glm::mat4 Projection = glm::perspective(glm::radians(FOV), (float)800 / 600, ZNear, ZFar);
+	int Width = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_WIDTH).value();
+	int Height = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_HEIGHT).value();
+	glm::mat4 Projection = glm::perspective(glm::radians(FOV), (float)Width / Height, ZNear, ZFar);
 	m_Shader.setUniformMatrix4fv("Model", Model);
 	m_Shader.setUniformMatrix4fv("View", View);
 	m_Shader.setUniformMatrix4fv("Projection", Projection);
