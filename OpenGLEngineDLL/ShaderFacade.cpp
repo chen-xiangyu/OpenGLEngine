@@ -6,9 +6,9 @@ using namespace hiveEngine;
 void CShaderFacade::addShader(const std::string& vVertexFilename, const std::string& vFragmentFilename)
 {
 	m_ShaderManager.addShader(vVertexFilename, vFragmentFilename);
-	if (m_CurrentShader == nullptr)
+	if (m_pCurrentShader == nullptr)
 	{
-		m_CurrentShader = m_ShaderManager.getShader(0);
+		m_pCurrentShader = m_ShaderManager.getShader(0);
 	}
 }
 
@@ -20,7 +20,7 @@ void CShaderFacade::setCurrentShader(unsigned int vID)
 		HIVE_LOG_ERROR("Fail to set current shader by ID = {}", vID);
 		return;
 	}
-	m_CurrentShader = t;
+	m_pCurrentShader = t;
 }
 
 void CShaderFacade::use()

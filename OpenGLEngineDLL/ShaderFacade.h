@@ -24,17 +24,17 @@ namespace hiveEngine
 
 	private:
 		CShaderManager m_ShaderManager;
-		std::shared_ptr<CShader> m_CurrentShader = nullptr;
+		std::shared_ptr<CShader> m_pCurrentShader = nullptr;
 
 		template<typename Func>
 		void __applyToCurrentShader(Func&& vFunc) const
 		{
-			if (m_CurrentShader == nullptr)
+			if (m_pCurrentShader == nullptr)
 			{
 				HIVE_LOG_ERROR("Fail to use shader, because it is null");
 				return;
 			}
-			vFunc(m_CurrentShader.get());
+			vFunc(m_pCurrentShader.get());
 		}
 	};
 }

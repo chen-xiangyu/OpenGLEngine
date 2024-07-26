@@ -46,6 +46,9 @@ void COpenGLEngine::run()
 
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
+		__handleInput();
+		int CurrentID = m_EditableConfig.getAttribute<int>(WORKING_SHADER_ID).value();
+		m_ShaderFacade.setCurrentShader(CurrentID);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -124,20 +127,8 @@ void COpenGLEngine::__initShader()
 		m_ShaderFacade.addShader(VertexShader, FragmentShader);
 	}
 	
-	m_ShaderFacade.setCurrentShader(1);
-	std::cout << m_ShaderFacade.getNumShader() << "\n";
-
-
-
-	////std::string ShaderConfigFilename = m_EngineConfig.getAttribute<std::string>(SHADER_CONFIG_FILE).value();
-	//m_ShaderConfig.loadDefaultConfig();
-	//hiveConfig::EParseResult Status = hiveConfig::hiveParseConfig(ShaderConfigFilename, hiveConfig::EConfigType::XML, &m_ShaderConfig);
-
-	//std::string VertexShader = m_ShaderConfig.getAttribute<std::string>("shader_perpixel_shading_vs|" + SHADER_SOURCE_FILE).value();
-	//std::string FragmentShader = m_ShaderConfig.getAttribute<std::string>("shader_perpixel_shading_fs|" + SHADER_SOURCE_FILE).value();
-
-	////m_Shader.init(VertexShader, FragmentShader);
-	//m_ShaderFacade.addShader(VertexShader, FragmentShader);
+	m_EditableConfig.setAttribute(NUM_SHADER, m_ShaderFacade.getNumShader());
+	m_EditableConfig.setAttribute(WORKING_SHADER_ID, 0);
 }
 
 void COpenGLEngine::__adjustWindowSize(GLFWwindow* vWindow, int vWidth, int vHeight)
@@ -181,4 +172,31 @@ void COpenGLEngine::__loadShaderConfig()
 void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
 {
 	m_EngineConfig.bindAttributeModifier(vName, vModifier);
+}
+
+void COpenGLEngine::bindInputEvent(const std::string& vName, const std::function<std::map<std::string, std::any>(const CEditableConfig&)> vCallback)
+{
+	if (vName == "A" || vName == "a")
+	{
+		m_InputCallbacks.insert(std::make_pair(GLFW_KEY_A, vCallback));
+	}
+}
+void COpenGLEngine::__handleInput()
+{
+	for (const auto& Item : m_InputCallbacks)
+	{
+		if (glfwGetKey(m_pWindow, Item.first) == GLFW_PRESS)
+		{
+			std::map<std::string, std::any> Result = Item.second(m_EditableConfig);
+			for (const auto& t : Result)
+			{
+				if (!m_EditableConfig.isAttributeExisted(t.first))
+				{
+					HIVE_LOG_ERROR("Fail to set attribute {}, because it is not exist", t.first);
+					continue;
+				}
+				m_EditableConfig.overwriteAttribute(t.first, t.second);
+			}
+		}
+	}
 }
