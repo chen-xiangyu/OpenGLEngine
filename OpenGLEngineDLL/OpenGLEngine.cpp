@@ -159,7 +159,7 @@ void COpenGLEngine::__loadShaderConfig()
 	m_Shader.setUniform3fv("ViewPos", ViewPos);
 	m_Shader.setUniform3fv("LightColor", LightColor);
 	m_Shader.setUniform3fv("LightDir", LightDir);
-	m_Shader.setFloatUniform("Shininess", Shininess);
+	m_Shader.setUniformFloat("Shininess", Shininess);
 }
 
 void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
