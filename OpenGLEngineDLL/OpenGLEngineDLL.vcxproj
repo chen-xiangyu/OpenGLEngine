@@ -134,7 +134,9 @@
   <ItemGroup>
     <ClCompile Include="AttributesModifier.cpp" />
     <ClCompile Include="AttributesRange.cpp" />
+    <ClCompile Include="EditableConfig.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="OpenGLEngine.cpp" />
     <ClCompile Include="EngineConfig.cpp" />
     <ClCompile Include="pch.cpp">
@@ -143,18 +145,24 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderConfig.cpp" />
+    <ClCompile Include="ShaderFacade.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttributesModifier.h" />
     <ClInclude Include="AttributesNameMapping.h" />
     <ClInclude Include="AttributesRange.h" />
     <ClInclude Include="AttributeValidator.h" />
+    <ClInclude Include="EditableConfig.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OpenGLEngine.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderConfig.h" />
+    <ClInclude Include="ShaderFacade.h" />
+    <ClInclude Include="ShaderManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

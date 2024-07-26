@@ -142,12 +142,15 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="OpenGLConfig.xml" />
-    <Xml Include="ShaderConfig.xml" />
+    <Xml Include="PerpixelShading.xml" />
+    <Xml Include="PervertexShading.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fragPerpixelShading.glsl" />
+    <None Include="fragPervertexShading.glsl" />
     <None Include="packages.config" />
     <None Include="vertPerpixelShading.glsl" />
+    <None Include="vertPervertexShading.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

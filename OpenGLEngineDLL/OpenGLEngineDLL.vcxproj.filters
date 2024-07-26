@@ -39,6 +39,18 @@
     <ClCompile Include="AttributesModifier.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ModelLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderFacade.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EditableConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLEngine.h">
@@ -69,6 +81,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AttributeValidator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderFacade.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EditableConfig.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

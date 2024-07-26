@@ -31,8 +31,10 @@ void CEngineConfig::__defineAttributesV()
 		{SCREEN_HEIGHT, hiveConfig::EConfigDataType::ATTRIBUTE_INT},
 		{SCREEN_TITLE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
 		{INIT_POSITION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC2I},
-
-		{SHADER_CONFIG_FILE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
+		
+		{SHADER_CONFIG_LIST, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
+		{SHADER_CONFIG_FILE, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
+		{FILE_NAME, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
 		{LIGHT_DIRECTION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC3F},
 
 	};

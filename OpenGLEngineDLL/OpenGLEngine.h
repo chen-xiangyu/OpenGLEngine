@@ -2,8 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "EngineConfig.h"
-#include "Shader.h"
-#include "ShaderConfig.h"
+#include "ShaderFacade.h"
 #include "Mesh.h"
 
 #ifdef OPENGL_ENGINE_EXPORTS
@@ -27,8 +26,7 @@ namespace hiveEngine
 	private:
 		GLFWwindow* m_pWindow = nullptr;
 		CEngineConfig m_EngineConfig;
-		CShader m_Shader;
-		CShaderConfig m_ShaderConfig;
+		CShaderFacade m_ShaderFacade;
 		CMesh m_Mesh;
 
 		void __initGLFW();

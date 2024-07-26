@@ -10,5 +10,6 @@
 #include <set>
 #include <tuple>
 #include <functional>
+#include <memory>
 
 #include "HiveLogger.h"

@@ -1,4 +1,5 @@
 #version 330 core
+// per vertex
 in vec3 Color;
 in vec3 Normal;
 in vec3 FragPos;
@@ -23,6 +24,6 @@ void main()
 
     vec3 AmbientColor = Ambient * LightColor;
 
-    vec3 FinalColor = (DiffuseColor + SpecularColor + AmbientColor) * Color;
+    vec3 FinalColor = (DiffuseColor + SpecularColor + AmbientColor) * vec3(0.3f, 0.3f, 0.3f);
     gl_FragColor = vec4(FinalColor, 1.0f);
 }

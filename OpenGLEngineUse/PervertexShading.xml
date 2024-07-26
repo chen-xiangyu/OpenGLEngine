@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SHADER>
-	shader_perpixel_shading_vs
-	<SHADER_SOURCE_FILE> vertPerpixelShading.glsl </SHADER_SOURCE_FILE>
+	vertex_shader
+	<SHADER_SOURCE_FILE> vertPervertexShading.glsl  </SHADER_SOURCE_FILE>
 </SHADER>
 
 <SHADER>
-	shader_perpixel_shading_fs
-	<SHADER_SOURCE_FILE> fragPerpixelShading.glsl </SHADER_SOURCE_FILE>
+	fragment_shader
+	<SHADER_SOURCE_FILE> fragPervertexShading.glsl </SHADER_SOURCE_FILE>
 </SHADER>
 
 <RENDER_ALGORITHM>

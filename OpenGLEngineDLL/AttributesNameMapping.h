@@ -18,6 +18,8 @@ namespace hiveEngine
 	const std::string INIT_POSITION = "INIT_POSITION";
 
 	const std::string SHADER_CONFIG_FILE = "SHADER_CONFIG_FILE";
+	const std::string SHADER_CONFIG_LIST = "SHADER_CONFIG_LIST";
+	const std::string FILE_NAME = "FILE_NAME";
 
 	const std::string SHADER = "SHADER";
 	const std::string SHADER_SOURCE_FILE = "SHADER_SOURCE_FILE";
