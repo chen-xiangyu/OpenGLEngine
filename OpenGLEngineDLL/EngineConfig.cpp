@@ -37,6 +37,8 @@ void CEngineConfig::__defineAttributesV()
 		{FILE_NAME, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
 		{LIGHT_DIRECTION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC3F},
 
+		{GLTF_FILE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
+
 	};
 	for (const auto& Item : Attributes)
 	{

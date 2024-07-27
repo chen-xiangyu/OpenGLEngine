@@ -11,5 +11,6 @@
 #include <tuple>
 #include <functional>
 #include <memory>
+#include <chrono>
 
 #include "HiveLogger.h"

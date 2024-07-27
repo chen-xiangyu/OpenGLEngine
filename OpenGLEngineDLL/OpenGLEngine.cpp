@@ -38,6 +38,8 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	};
 
 	m_Mesh.loadData(Vertices, Indices);
+
+	std::cout << m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value() << "\n";
 }
 
 void COpenGLEngine::run()
@@ -46,7 +48,7 @@ void COpenGLEngine::run()
 
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
-		__handleInput();
+		m_InputController.handleInput(m_pWindow, m_EditableConfig);
 		int CurrentID = m_EditableConfig.getAttribute<int>(WORKING_SHADER_ID).value();
 		m_ShaderFacade.setCurrentShader(CurrentID);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -176,25 +178,5 @@ void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::f
 
 void COpenGLEngine::bindInputEvent(const KeyEventType& vKeyEvent, const std::function<std::map<std::string, std::any>(const CEditableConfig&)> vCallback)
 {
-	m_InputCallbacks.insert(std::make_pair(vKeyEvent, vCallback));
-}
-void COpenGLEngine::__handleInput()
-{
-	for (const auto& Item : m_InputCallbacks)
-	{
-		KeyEventType Event = Item.first;
-		if (glfwGetKey(m_pWindow, KeyTypeMapping.at(Event.first)) == KeyStatusMapping.at(Event.second))
-		{
-			std::map<std::string, std::any> Result = Item.second(m_EditableConfig);
-			for (const auto& t : Result)
-			{
-				if (!m_EditableConfig.isAttributeExisted(t.first))
-				{
-					HIVE_LOG_ERROR("Fail to set attribute {}, because it is not exist", t.first);
-					continue;
-				}
-				m_EditableConfig.overwriteAttribute(t.first, t.second);
-			}
-		}
-	}
+	m_InputController.bindInputEvent(vKeyEvent, vCallback);
 }

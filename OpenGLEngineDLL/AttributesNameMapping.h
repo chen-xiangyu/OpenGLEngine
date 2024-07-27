@@ -22,6 +22,8 @@ namespace hiveEngine
 	const std::string SHADER_CONFIG_FILE = "SHADER_CONFIG_FILE";
 	const std::string FILE_NAME = "FILE_NAME";
 
+	const std::string GLTF_FILE = "GLTF_FILE";
+
 	// shader config
 	const std::string SHADER = "SHADER";
 	const std::string SHADER_SOURCE_FILE = "SHADER_SOURCE_FILE";

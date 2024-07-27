@@ -135,6 +135,7 @@
     <ClCompile Include="AttributesModifier.cpp" />
     <ClCompile Include="AttributesRange.cpp" />
     <ClCompile Include="EditableConfig.cpp" />
+    <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="OpenGLEngine.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="AttributeValidator.h" />
     <ClInclude Include="EngineCommon.h" />
     <ClInclude Include="EditableConfig.h" />
+    <ClInclude Include="InputController.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OpenGLEngine.h" />
