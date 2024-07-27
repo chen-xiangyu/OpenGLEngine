@@ -95,6 +95,9 @@
     <ClInclude Include="EditableConfig.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="EngineCommon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

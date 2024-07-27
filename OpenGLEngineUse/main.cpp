@@ -11,7 +11,8 @@ int main()
 	hiveEngine::COpenGLEngine Engine;
 	Engine.init("OpenGLConfig.xml");
 	Engine.bindAttributeModifier("LIGHT_DIRECTION", changeLightDir);
-    Engine.bindInputEvent("A", changeShader);
+    hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_A, hiveEngine::EKeyStatus::PRESS };
+    Engine.bindInputEvent(Event, changeShader);
 	Engine.run();
 	return 0;
 }

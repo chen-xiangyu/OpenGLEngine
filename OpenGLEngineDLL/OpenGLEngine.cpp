@@ -174,18 +174,16 @@ void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::f
 	m_EngineConfig.bindAttributeModifier(vName, vModifier);
 }
 
-void COpenGLEngine::bindInputEvent(const std::string& vName, const std::function<std::map<std::string, std::any>(const CEditableConfig&)> vCallback)
+void COpenGLEngine::bindInputEvent(const KeyEventType& vKeyEvent, const std::function<std::map<std::string, std::any>(const CEditableConfig&)> vCallback)
 {
-	if (vName == "A" || vName == "a")
-	{
-		m_InputCallbacks.insert(std::make_pair(GLFW_KEY_A, vCallback));
-	}
+	m_InputCallbacks.insert(std::make_pair(vKeyEvent, vCallback));
 }
 void COpenGLEngine::__handleInput()
 {
 	for (const auto& Item : m_InputCallbacks)
 	{
-		if (glfwGetKey(m_pWindow, Item.first) == GLFW_PRESS)
+		KeyEventType Event = Item.first;
+		if (glfwGetKey(m_pWindow, KeyTypeMapping.at(Event.first)) == KeyStatusMapping.at(Event.second))
 		{
 			std::map<std::string, std::any> Result = Item.second(m_EditableConfig);
 			for (const auto& t : Result)

@@ -153,6 +153,7 @@
     <ClInclude Include="AttributesNameMapping.h" />
     <ClInclude Include="AttributesRange.h" />
     <ClInclude Include="AttributeValidator.h" />
+    <ClInclude Include="EngineCommon.h" />
     <ClInclude Include="EditableConfig.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelLoader.h" />
