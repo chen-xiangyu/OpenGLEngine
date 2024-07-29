@@ -4,8 +4,9 @@
 
 using namespace hiveEngine;
 
-void CShaderUnit::init(const std::string& vVertexFilename, const std::string& vFragmentFilename)
+void CShaderUnit::init(const std::string& vName, const std::string& vVertexFilename, const std::string& vFragmentFilename)
 {
+	m_Name = vName;
 	GLuint VertexShader = __compileShader(vVertexFilename, GL_VERTEX_SHADER);
 	GLuint FragmentShader = __compileShader(vFragmentFilename, GL_FRAGMENT_SHADER);
 
@@ -92,29 +93,47 @@ std::string CShaderUnit::__readShaderCode(const std::string& vFilename)
 void CShaderUnit::use()
 {
 	glUseProgram(m_ID);
+	__updateUniform();
 }
 
-void CShaderUnit::setUniformBool(const std::string& vName, bool vValue) const
+void CShaderUnit::setUniformModifier(const std::string& vName, const std::function<std::any()>& vModifier)
+{
+	m_UniformModifiers.insert(std::make_pair(vName, vModifier));
+}
+void CShaderUnit::__updateUniform()
+{
+	for (const auto& Item : m_UniformModifiers)
+	{
+		std::any Value = Item.second();
+		if (Value.type() == typeid(bool)) setUniform(Item.first, std::any_cast<bool>(Value));
+		else if (Value.type() == typeid(int)) setUniform(Item.first, std::any_cast<int>(Value));
+		else if (Value.type() == typeid(float)) setUniform(Item.first, std::any_cast<float>(Value));
+		else if (Value.type() == typeid(glm::mat4)) setUniform(Item.first, std::any_cast<glm::mat4>(Value));
+		else if (Value.type() == typeid(glm::vec3)) setUniform(Item.first, std::any_cast<glm::vec3>(Value));
+	}
+}
+
+void CShaderUnit::setUniform(const std::string& vName, bool vValue) const
 {
 	glUniform1i(glGetUniformLocation(m_ID, vName.c_str()), (int)vValue);
 }
 
-void CShaderUnit::setUniformInt(const std::string& vName, int vValue) const
+void CShaderUnit::setUniform(const std::string& vName, int vValue) const
 {
 	glUniform1i(glGetUniformLocation(m_ID, vName.c_str()), vValue);
 }
 
-void CShaderUnit::setUniformFloat(const std::string& vName, float vValue) const
+void CShaderUnit::setUniform(const std::string& vName, float vValue) const
 {
 	glUniform1f(glGetUniformLocation(m_ID, vName.c_str()), vValue);
 }
 
-void CShaderUnit::setUniformMatrix4fv(const std::string& vName, const glm::mat4& vValue) const
+void CShaderUnit::setUniform(const std::string& vName, const glm::mat4& vValue) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(m_ID, vName.c_str()), 1, GL_FALSE, glm::value_ptr(vValue));
 }
 
-void CShaderUnit::setUniform3fv(const std::string& vName, const glm::vec3& vValue) const
+void CShaderUnit::setUniform(const std::string& vName, const glm::vec3& vValue) const
 {
 	glUniform3fv(glGetUniformLocation(m_ID, vName.c_str()), 1, glm::value_ptr(vValue));
 }

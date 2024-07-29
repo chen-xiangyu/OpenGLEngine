@@ -153,6 +153,15 @@
     <ClCompile Include="GLTFModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RenderAlgorithm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardRender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRender.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLEngine.h">
@@ -309,6 +318,15 @@
       <Filter>ModelLoader\utils</Filter>
     </ClInclude>
     <ClInclude Include="GLTFModel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderAlgorithm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardRender.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DeferredRender.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

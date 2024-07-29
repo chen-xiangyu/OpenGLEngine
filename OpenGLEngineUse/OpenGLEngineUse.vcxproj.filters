@@ -31,7 +31,7 @@
     <Xml Include="OpenGLConfig.xml">
       <Filter>源文件</Filter>
     </Xml>
-    <Xml Include="PerpixelShading.xml">
+    <Xml Include="ShaderConfig.xml">
       <Filter>源文件</Filter>
     </Xml>
     <Xml Include="PervertexShading.xml">
@@ -40,9 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="fragPerpixelShading.glsl" />
-    <None Include="vertPerpixelShading.glsl" />
-    <None Include="vertPervertexShading.glsl" />
-    <None Include="fragPervertexShading.glsl" />
+    <None Include="shaders\fragPerpixelShading.glsl" />
+    <None Include="shaders\vertPerpixelShading.glsl" />
+    <None Include="shaders\vertPervertexShading.glsl" />
+    <None Include="shaders\fragPervertexShading.glsl" />
   </ItemGroup>
 </Project>

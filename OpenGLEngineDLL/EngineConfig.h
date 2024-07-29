@@ -4,6 +4,23 @@
 
 namespace hiveEngine
 {
+	const std::string OPENGL_ENGINE = "OPENGL_ENGINE";
+
+	const std::string GLFW_SETTINGS = "GLFW_SETTINGS";
+	const std::string VERSION_MAJOR = "VERSION_MAJOR";
+	const std::string VERSION_MINOR = "VERSION_MINOR";
+	const std::string PROFILE = "PROFILE";
+
+	const std::string WINDOW_SETTINGS = "WINDOW_SETTINGS";
+	const std::string SCREEN_WIDTH = "WIDTH";
+	const std::string SCREEN_HEIGHT = "HEIGHT";
+	const std::string SCREEN_TITLE = "TITLE";
+	const std::string INIT_POSITION = "INIT_POSITION";
+
+	const std::string SHADER_CONFIG_FILE = "SHADER_CONFIG_FILE";
+
+	const std::string GLTF_FILE = "GLTF_FILE";
+
 	class CEngineConfig : public hiveConfig::CHiveConfig
 	{
 	public:

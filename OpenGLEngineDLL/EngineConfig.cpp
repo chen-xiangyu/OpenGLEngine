@@ -4,7 +4,6 @@
 #include "Factory.h"
 #include "CommonMicro.h"
 #include "HiveLogger.h"
-#include "AttributesNameMapping.h"
 #include "AttributesRange.h"
 
 using namespace hiveEngine;
@@ -21,22 +20,20 @@ void CEngineConfig::__defineAttributesV()
 {
 	std::map<std::string, hiveConfig::EConfigDataType> Attributes = {
 		{OPENGL_ENGINE, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
-		{GLFW_SETTINGS, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
-		{WINDOW_SETTINGS, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
 
+		{GLFW_SETTINGS, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
 		{VERSION_MAJOR, hiveConfig::EConfigDataType::ATTRIBUTE_INT},
 		{VERSION_MINOR, hiveConfig::EConfigDataType::ATTRIBUTE_INT},
 		{PROFILE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
+
+		{WINDOW_SETTINGS, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
 		{SCREEN_WIDTH, hiveConfig::EConfigDataType::ATTRIBUTE_INT},
 		{SCREEN_HEIGHT, hiveConfig::EConfigDataType::ATTRIBUTE_INT},
 		{SCREEN_TITLE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
 		{INIT_POSITION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC2I},
-		
-		{SHADER_CONFIG_LIST, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
-		{SHADER_CONFIG_FILE, hiveConfig::EConfigDataType::ATTRIBUTE_SUBCONFIG},
-		{FILE_NAME, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
-		{LIGHT_DIRECTION, hiveConfig::EConfigDataType::ATTRIBUTE_VEC3F},
 
+		{SHADER_CONFIG_FILE , hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
+		
 		{GLTF_FILE, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
 
 	};
@@ -56,7 +53,6 @@ void CEngineConfig::__loadDefaultConfigV()
 		{SCREEN_HEIGHT, 600},
 		{SCREEN_TITLE, std::string("Learn OpenGL")},
 		{INIT_POSITION, std::tuple<int, int>(100, 200)},
-		{LIGHT_DIRECTION, std::tuple<double, double, double>(0.0, 0.0, 1.0)},
 	};
 	for (const auto& Item : DefaultValue)
 	{

@@ -6,7 +6,7 @@ using namespace hiveEngine;
 void CShaderManager::addShader(const std::string& vVertexFilename, const std::string& vFragmentFilename)
 {
 	auto Shader = std::make_shared<CShaderUnit>();
-	Shader->init(vVertexFilename, vFragmentFilename);
+	//Shader->init(vVertexFilename, vFragmentFilename);
 	m_ShaderList.push_back(Shader);
 }
 

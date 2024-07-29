@@ -10,20 +10,25 @@ namespace hiveEngine {
 		CShaderUnit() = default;
 		~CShaderUnit() = default;
 
-		void init(const std::string& vVertexFilename, const std::string& vFragmentFilename);
+		void init(const std::string& vName, const std::string& vVertexFilename, const std::string& vFragmentFilename);
 		void use();
+		void setUniformModifier(const std::string& vName, const std::function<std::any()>& vModifier);
+		std::string getName() const { return m_Name; }
 
-		void setUniformBool(const std::string& vName, bool vValue) const;
-		void setUniformInt(const std::string& vName, int vValue) const;
-		void setUniformFloat(const std::string& vName, float vValue) const; 
-		void setUniformMatrix4fv(const std::string& vName, const glm::mat4& vValue) const;
-		void setUniform3fv(const std::string& vName, const glm::vec3& vValue) const;
+		void setUniform(const std::string& vName, bool vValue) const;
+		void setUniform(const std::string& vName, int vValue) const;
+		void setUniform(const std::string& vName, float vValue) const;
+		void setUniform(const std::string& vName, const glm::mat4& vValue) const;
+		void setUniform(const std::string& vName, const glm::vec3& vValue) const;
 
 	private:
 		GLuint m_ID;
+		std::string m_Name;
+		std::map<std::string, std::function<std::any()>> m_UniformModifiers;
 
 		void __checkErrors(GLuint vShaderProgram, const std::string& vType);
 		std::string __readShaderCode(const std::string& vFilename);
 		GLuint __compileShader(const std::string& vFilename, GLenum vType);
+		void __updateUniform();
 	};
 }

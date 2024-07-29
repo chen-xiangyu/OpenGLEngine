@@ -12,5 +12,6 @@
 #include <functional>
 #include <memory>
 #include <chrono>
+#include <format>
 
 #include "HiveLogger.h"

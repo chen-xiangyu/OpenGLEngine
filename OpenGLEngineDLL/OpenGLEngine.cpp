@@ -8,6 +8,8 @@
 #include "EngineConfig.h"
 #include "AttributesNameMapping.h"
 #include "ShaderConfig.h"
+#include "ForwardRender.h"
+#include "DeferredRender.h"
 
 using namespace hiveEngine;
 
@@ -24,29 +26,33 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 		HIVE_LOG_ERROR("failed to initialize GLAD.\n");
 		return;
 	}
-	__initShader();
+	//__initShader();
+	std::string Filename;
+	Filename = m_EngineConfig.getAttribute<std::string>(SHADER_CONFIG_FILE).value();
+	__initRenderAlgorithm(Filename);
 
-	std::string GLTFFilename = m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value();
-	m_Model.loadGLTFModel(GLTFFilename, nullptr);
+	Filename = m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value();
+	m_Model.loadGLTFModel(Filename, nullptr);
 }
 
 void COpenGLEngine::run()
 {
 	if (m_pWindow == nullptr) return;
-
+	m_RenderAlgorithms["PerpixelShading"]->init();
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
 		m_InputController.handleInput(m_pWindow, m_EditableConfig);
-		int CurrentID = m_EditableConfig.getAttribute<int>(WORKING_SHADER_ID).value();
-		m_ShaderFacade.setCurrentShader(CurrentID);
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		//int CurrentID = m_EditableConfig.getAttribute<int>(WORKING_SHADER_ID).value();
+		//m_ShaderFacade.setCurrentShader(CurrentID);
+		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		//glClear(GL_COLOR_BUFFER_BIT);
 
-		m_EngineConfig.applyAttributeModifiers();
+		//m_EngineConfig.applyAttributeModifiers();
 
-		m_ShaderFacade.use();
-		__loadShaderConfig();
-		m_Model.draw();
+		//m_ShaderFacade.use();
+		//__loadShaderConfig();
+		//m_Model.draw();
+		m_RenderAlgorithms["PerpixelShading"]->render(m_Model);
 
 		glfwSwapBuffers(m_pWindow);
 		glfwPollEvents();
@@ -89,7 +95,7 @@ void COpenGLEngine::__initWindow()
 
 	glfwMakeContextCurrent(m_pWindow);
 
-	//glfwSetFramebufferSizeCallback(m_pWindow, __adjustWindowSize);
+	glfwSetFramebufferSizeCallback(m_pWindow, __adjustWindowSize);
 }
 
 void COpenGLEngine::__initShader()
@@ -103,7 +109,8 @@ void COpenGLEngine::__initShader()
 	};
 	for (int i = 0; i < NumShader; i++)
 	{
-		std::string t = ShaderFiles[i] + "|" + FILE_NAME;
+		//std::string t = ShaderFiles[i] + "|" + FILE_NAME;
+		std::string t = ShaderFiles[i] + "|" + "FILE_NAME";
 		std::string ShaderConfigFilename = pShaderConfigList->getAttribute<std::string>(t).value();
 
 		CShaderConfig ShaderConfig;
@@ -118,6 +125,55 @@ void COpenGLEngine::__initShader()
 	
 	m_EditableConfig.setAttribute(NUM_SHADER, (int)m_ShaderFacade.getNumShader());
 	m_EditableConfig.setAttribute(WORKING_SHADER_ID, 0);
+}
+
+void COpenGLEngine::__initRenderAlgorithm(const std::string& vFilename)
+{
+	CShaderConfig ShaderConfig;
+	ShaderConfig.loadDefaultConfig();
+	hiveConfig::EParseResult Status = hiveConfig::hiveParseConfig(vFilename, hiveConfig::EConfigType::XML, &ShaderConfig);
+
+	int AlgorithmNum = ShaderConfig.getNumSpecifiedSubconfigs(RENDER_ALGORITHM);
+	std::cout << AlgorithmNum << "\n";
+	for (int i = 0; i < AlgorithmNum; i++)
+	{
+		hiveConfig::CHiveConfig* pAlgorithmConfig = ShaderConfig.fetchSpecifiedSubconfigAt(RENDER_ALGORITHM, i);
+		std::string AlgorithmName = pAlgorithmConfig->getName();
+
+		std::string AlgorithmType = pAlgorithmConfig->getAttribute<std::string>(RENDER_TYPE).value();
+
+		std::shared_ptr<IRenderAlgorithm> pRenderAlgorithm; 
+		
+		if (AlgorithmType == "forward_render")
+		{
+			pRenderAlgorithm = std::make_shared<CForwardRender>();
+		}
+		else if (AlgorithmType == "deferred_render")
+		{
+			pRenderAlgorithm = std::make_shared<CDeferredRender>();
+		}
+		int RenderPassNum = pAlgorithmConfig->getNumSpecifiedSubconfigs(RENDER_PASS);
+		for (int j = 0; j < RenderPassNum; j++)
+		{
+			hiveConfig::CHiveConfig* pPassConfig = pAlgorithmConfig->fetchSpecifiedSubconfigAt(RENDER_PASS, j);
+			std::string RenderPassName = pPassConfig->getName();
+
+			std::string VSXMLName = pPassConfig->getAttribute<std::string>(VERTEX_SHADER).value();
+			std::string FSXMLName = pPassConfig->getAttribute<std::string>(FRAGMENT_SHADER).value();
+			std::string VSXMLPath = std::format("{}|{}", VSXMLName, SHADER_SOURCE_FILE);
+			std::string FSXMLPath = std::format("{}|{}", FSXMLName, SHADER_SOURCE_FILE);
+
+			std::string VSFilename = ShaderConfig.getAttribute<std::string>(VSXMLPath).value();
+			std::string FSFilename = ShaderConfig.getAttribute<std::string>(FSXMLPath).value();
+
+			pRenderAlgorithm->addShader(RenderPassName, VSFilename, FSFilename);
+		}
+		m_RenderAlgorithms.insert(std::make_pair(AlgorithmName, pRenderAlgorithm));
+	}
+	for (auto Item : m_RenderAlgorithms)
+	{
+		std::cout << Item.first << " " << Item.second->getNumShaders() << "\n";
+	}
 }
 
 void COpenGLEngine::__adjustWindowSize(GLFWwindow* vWindow, int vWidth, int vHeight)
@@ -170,4 +226,16 @@ void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::f
 void COpenGLEngine::bindInputEvent(const KeyEventType& vKeyEvent, const std::function<std::map<std::string, std::any>(const CEditableConfig&)> vCallback)
 {
 	m_InputController.bindInputEvent(vKeyEvent, vCallback);
+}
+
+void COpenGLEngine::setUniformToShader(const std::string& vShaderName, const std::string& vUniformName, const std::function<std::any()>& vModifier)
+{
+	for (auto& Item : m_RenderAlgorithms)
+	{
+		if (Item.second->isContainShader(vShaderName))
+		{
+			Item.second->setUniformToShader(vShaderName, vUniformName, vModifier);
+			break;
+		}
+	}
 }

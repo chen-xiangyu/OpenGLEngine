@@ -136,7 +136,9 @@
   <ItemGroup>
     <ClCompile Include="AttributesModifier.cpp" />
     <ClCompile Include="AttributesRange.cpp" />
+    <ClCompile Include="DeferredRender.cpp" />
     <ClCompile Include="EditableConfig.cpp" />
+    <ClCompile Include="ForwardRender.cpp" />
     <ClCompile Include="GLTFModel.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -234,6 +236,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RenderAlgorithm.cpp" />
     <ClCompile Include="ShaderUnit.cpp" />
     <ClCompile Include="ShaderConfig.cpp" />
     <ClCompile Include="ShaderFacade.cpp" />
@@ -244,8 +247,10 @@
     <ClInclude Include="AttributesNameMapping.h" />
     <ClInclude Include="AttributesRange.h" />
     <ClInclude Include="AttributeValidator.h" />
+    <ClInclude Include="DeferredRender.h" />
     <ClInclude Include="EngineCommon.h" />
     <ClInclude Include="EditableConfig.h" />
+    <ClInclude Include="ForwardRender.h" />
     <ClInclude Include="GLTFModel.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="Mesh.h" />
@@ -288,6 +293,7 @@
     <ClInclude Include="OpenGLEngine.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RenderAlgorithm.h" />
     <ClInclude Include="ShaderUnit.h" />
     <ClInclude Include="ShaderConfig.h" />
     <ClInclude Include="ShaderFacade.h" />
