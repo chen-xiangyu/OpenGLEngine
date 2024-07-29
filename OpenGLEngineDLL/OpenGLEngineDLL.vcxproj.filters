@@ -13,6 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ModelLoader">
+      <UniqueIdentifier>{f8da3c26-3922-4ccc-b9ff-1381c83b33f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\core">
+      <UniqueIdentifier>{8d54674f-6969-456c-8cf5-28b6adc377a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\base">
+      <UniqueIdentifier>{b4933fd6-42bc-472c-86ee-c197658541e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\material">
+      <UniqueIdentifier>{ec4f61bf-7dac-4985-b67e-a4708122d371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\tinygltf">
+      <UniqueIdentifier>{a1352d02-7ff2-4cb4-b40c-105c8569650b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\happly">
+      <UniqueIdentifier>{5a9ef433-3c20-4139-80c1-adf1ec924fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\gizmos">
+      <UniqueIdentifier>{a7ac99f1-0e6a-4132-bec8-a566bc45927d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\culling">
+      <UniqueIdentifier>{84db5bdf-1e62-49cc-a24d-a284f3a35d63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\light">
+      <UniqueIdentifier>{d5b4ff7b-ed07-4419-b7c1-1f477722b121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\camera">
+      <UniqueIdentifier>{8727a23b-1028-41b1-9910-afa281ffc108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader\utils">
+      <UniqueIdentifier>{02f77f14-5a7f-4bd6-8dc6-15745c1dc40f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenGLEngine.cpp">
@@ -27,7 +60,7 @@
     <ClCompile Include="AttributesRange.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
+    <ClCompile Include="ShaderUnit.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ShaderConfig.cpp">
@@ -37,9 +70,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="AttributesModifier.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
@@ -52,6 +82,75 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InputController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\modelLoader.cpp">
+      <Filter>ModelLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\core\Node.cpp">
+      <Filter>ModelLoader\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\core\Transform.cpp">
+      <Filter>ModelLoader\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\base\Framebuffer.cpp">
+      <Filter>ModelLoader\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\base\RenderBuffer.cpp">
+      <Filter>ModelLoader\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\base\Shader.cpp">
+      <Filter>ModelLoader\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\base\Texture2D.cpp">
+      <Filter>ModelLoader\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\base\VertexArrayBuffer.cpp">
+      <Filter>ModelLoader\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\material\PBRMaterial.cpp">
+      <Filter>ModelLoader\material</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\material\SimplePointCloudMaterial.cpp">
+      <Filter>ModelLoader\material</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\material\SolidColorMaterial.cpp">
+      <Filter>ModelLoader\material</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\material\VisNormalMaterial.cpp">
+      <Filter>ModelLoader\material</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\tinygltf\tiny_gltf.cpp">
+      <Filter>ModelLoader\tinygltf</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\gizmos\AABBGizmo.cpp">
+      <Filter>ModelLoader\gizmos</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\core\Scene.cpp">
+      <Filter>ModelLoader\core</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\light\DirectionalLight.cpp">
+      <Filter>ModelLoader\light</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\light\PointLight.cpp">
+      <Filter>ModelLoader\light</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\camera\ArcballController.cpp">
+      <Filter>ModelLoader\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\camera\Camera.cpp">
+      <Filter>ModelLoader\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\camera\FPSController.cpp">
+      <Filter>ModelLoader\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\camera\PerspectiveCamera.cpp">
+      <Filter>ModelLoader\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoader\utils\AssetsPath.cpp">
+      <Filter>ModelLoader\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GLTFModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +170,7 @@
     <ClInclude Include="AttributesRange.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="ShaderUnit.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ShaderConfig.h">
@@ -84,9 +183,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="AttributeValidator.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ShaderFacade.h">
@@ -102,6 +198,117 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ShaderManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\modelLoader.h">
+      <Filter>ModelLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\core\Model.h">
+      <Filter>ModelLoader\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\core\Node.h">
+      <Filter>ModelLoader\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\core\Transform.h">
+      <Filter>ModelLoader\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\base\Framebuffer.h">
+      <Filter>ModelLoader\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\base\RenderBuffer.h">
+      <Filter>ModelLoader\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\base\Shader.h">
+      <Filter>ModelLoader\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\base\Texture.h">
+      <Filter>ModelLoader\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\base\Texture2D.h">
+      <Filter>ModelLoader\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\base\VertexArrayBuffer.h">
+      <Filter>ModelLoader\base</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\material\Material.h">
+      <Filter>ModelLoader\material</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\material\PBRMaterial.h">
+      <Filter>ModelLoader\material</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\material\SimplePointCloudMaterial.h">
+      <Filter>ModelLoader\material</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\material\SolidColorMaterial.h">
+      <Filter>ModelLoader\material</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\material\VisNormalMaterial.h">
+      <Filter>ModelLoader\material</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\happly\happly.h">
+      <Filter>ModelLoader\happly</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\tinygltf\json.hpp">
+      <Filter>ModelLoader\tinygltf</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\tinygltf\stb_image.h">
+      <Filter>ModelLoader\tinygltf</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\tinygltf\stb_image_write.h">
+      <Filter>ModelLoader\tinygltf</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\tinygltf\tiny_gltf.h">
+      <Filter>ModelLoader\tinygltf</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\gizmos\AABBGizmo.h">
+      <Filter>ModelLoader\gizmos</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\culling\AABB.h">
+      <Filter>ModelLoader\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\culling\BoundingVolume.h">
+      <Filter>ModelLoader\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\culling\Frustum.h">
+      <Filter>ModelLoader\culling</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\core\Scene.h">
+      <Filter>ModelLoader\core</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\light\DirectionalLight.h">
+      <Filter>ModelLoader\light</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\light\Light.h">
+      <Filter>ModelLoader\light</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\light\PointLight.h">
+      <Filter>ModelLoader\light</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\camera\ArcballController.h">
+      <Filter>ModelLoader\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\camera\Camera.h">
+      <Filter>ModelLoader\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\camera\FPSController.h">
+      <Filter>ModelLoader\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\camera\PerspCamController.h">
+      <Filter>ModelLoader\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\camera\PerspectiveCamera.h">
+      <Filter>ModelLoader\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\utils\AssetsPath.h">
+      <Filter>ModelLoader\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\utils\InputHandler.h">
+      <Filter>ModelLoader\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader\utils\safe.h">
+      <Filter>ModelLoader\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GLTFModel.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

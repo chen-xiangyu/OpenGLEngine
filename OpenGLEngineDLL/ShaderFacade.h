@@ -1,6 +1,6 @@
 #pragma once
 #include "HiveLogger.h"
-#include "Shader.h"
+#include "ShaderUnit.h"
 #include "ShaderManager.h"
 
 namespace hiveEngine
@@ -14,7 +14,7 @@ namespace hiveEngine
 		void addShader(const std::string& vVertexFilename, const std::string& vFragmentFilename);
 		void setCurrentShader(unsigned int vID);
 		void use();
-		int getNumShader() const;
+		size_t getNumShader() const;
 
 		void setUniformBool(const std::string& vName, bool vValue) const;
 		void setUniformInt(const std::string& vName, int vValue) const;
@@ -24,7 +24,7 @@ namespace hiveEngine
 
 	private:
 		CShaderManager m_ShaderManager;
-		std::shared_ptr<CShader> m_pCurrentShader = nullptr;
+		std::shared_ptr<CShaderUnit> m_pCurrentShader = nullptr;
 
 		template<typename Func>
 		void __applyToCurrentShader(Func&& vFunc) const

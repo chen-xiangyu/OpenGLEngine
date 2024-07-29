@@ -18,7 +18,7 @@ namespace hiveEngine
 
 		void loadData(std::vector<SVertex> vVertices, std::vector<unsigned int> vIndices);
 		unsigned int getVAO() const { return m_VAO; }
-		unsigned int getNumIndices() const { return m_Indices.size(); }
+		size_t getNumIndices() const { return m_Indices.size(); }
 
 	private:
 		std::vector<SVertex> m_Vertices;

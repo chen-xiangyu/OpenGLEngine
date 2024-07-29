@@ -14,7 +14,7 @@ void CShaderFacade::addShader(const std::string& vVertexFilename, const std::str
 
 void CShaderFacade::setCurrentShader(unsigned int vID)
 {
-	std::shared_ptr<CShader> t = m_ShaderManager.getShader(vID);
+	std::shared_ptr<CShaderUnit> t = m_ShaderManager.getShader(vID);
 	if (t == nullptr)
 	{
 		HIVE_LOG_ERROR("Fail to set current shader by ID = {}", vID);
@@ -25,47 +25,47 @@ void CShaderFacade::setCurrentShader(unsigned int vID)
 
 void CShaderFacade::use()
 {
-	__applyToCurrentShader([](CShader* vShader) {
+	__applyToCurrentShader([](CShaderUnit* vShader) {
 		vShader->use();
 	});
 }
 
-int CShaderFacade::getNumShader() const
+size_t CShaderFacade::getNumShader() const
 {
 	return m_ShaderManager.getNumShader();
 }
 
 void CShaderFacade::setUniformBool(const std::string& vName, bool vValue) const
 {
-	__applyToCurrentShader([&](CShader* vShader) {
+	__applyToCurrentShader([&](CShaderUnit* vShader) {
 		vShader->setUniformBool(vName, vValue);
 	});
 }
 
 void CShaderFacade::setUniformInt(const std::string& vName, int vValue) const
 {
-	__applyToCurrentShader([&](CShader* vShader) {
+	__applyToCurrentShader([&](CShaderUnit* vShader) {
 		vShader->setUniformInt(vName, vValue);
 	});
 }
 
 void CShaderFacade::setUniformFloat(const std::string& vName, float vValue) const
 {
-	__applyToCurrentShader([&](CShader* vShader) {
+	__applyToCurrentShader([&](CShaderUnit* vShader) {
 		vShader->setUniformFloat(vName, vValue);
 	});
 }
 
 void CShaderFacade::setUniformMatrix4fv(const std::string& vName, const glm::mat4& vValue) const
 {
-	__applyToCurrentShader([&](CShader* vShader) {
+	__applyToCurrentShader([&](CShaderUnit* vShader) {
 		vShader->setUniformMatrix4fv(vName, vValue);
 	});
 }
 
 void CShaderFacade::setUniform3fv(const std::string& vName, const glm::vec3& vValue) const
 {
-	__applyToCurrentShader([&](CShader* vShader) {
+	__applyToCurrentShader([&](CShaderUnit* vShader) {
 		vShader->setUniform3fv(vName, vValue);
 	});
 }

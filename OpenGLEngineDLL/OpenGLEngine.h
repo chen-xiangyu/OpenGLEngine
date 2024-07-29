@@ -4,8 +4,8 @@
 #include "EngineConfig.h"
 #include "EditableConfig.h"
 #include "ShaderFacade.h"
-#include "Mesh.h"
 #include "InputController.h"
+#include "GLTFModel.h"
 
 #ifdef OPENGL_ENGINE_EXPORTS
 #define OPENGL_ENGINE_API __declspec(dllexport)
@@ -31,8 +31,8 @@ namespace hiveEngine
 		CEngineConfig m_EngineConfig;
 		CEditableConfig m_EditableConfig;
 		CShaderFacade m_ShaderFacade;
-		CMesh m_Mesh;
 		CInputController m_InputController;
+		CGLTFModel m_Model;
 		
 		void __initGLFW();
 		void __initWindow();

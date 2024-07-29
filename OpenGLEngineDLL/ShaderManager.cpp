@@ -5,12 +5,12 @@ using namespace hiveEngine;
 
 void CShaderManager::addShader(const std::string& vVertexFilename, const std::string& vFragmentFilename)
 {
-	auto Shader = std::make_shared<CShader>();
+	auto Shader = std::make_shared<CShaderUnit>();
 	Shader->init(vVertexFilename, vFragmentFilename);
 	m_ShaderList.push_back(Shader);
 }
 
-std::shared_ptr<CShader> CShaderManager::getShader(unsigned int vID)
+std::shared_ptr<CShaderUnit> CShaderManager::getShader(unsigned int vID)
 {
 	if (vID < m_ShaderList.size())
 	{
@@ -19,7 +19,7 @@ std::shared_ptr<CShader> CShaderManager::getShader(unsigned int vID)
 	return nullptr;
 }
 
-int CShaderManager::getNumShader() const
+size_t CShaderManager::getNumShader() const
 {
 	return m_ShaderList.size();
 }

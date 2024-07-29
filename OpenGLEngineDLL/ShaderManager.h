@@ -1,5 +1,5 @@
 #pragma once
-#include "Shader.h"
+#include "ShaderUnit.h"
 
 namespace hiveEngine
 {
@@ -10,10 +10,10 @@ namespace hiveEngine
 		~CShaderManager() = default;
 
 		void addShader(const std::string& vVertexFilename, const std::string& vFragmentFilename);
-		std::shared_ptr<CShader> getShader(unsigned int vID);
-		int getNumShader() const;
+		std::shared_ptr<CShaderUnit> getShader(unsigned int vID);
+		size_t getNumShader() const;
 
 	private:
-		std::vector<std::shared_ptr<CShader>> m_ShaderList;
+		std::vector<std::shared_ptr<CShaderUnit>> m_ShaderList;
 	};
 }

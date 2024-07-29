@@ -26,20 +26,8 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	}
 	__initShader();
 
-	std::vector<SVertex> Vertices = {
-		{{0.5f,  0.5f, -3.0f},   {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}},
-		{{0.5f, -0.5f, -3.0f},   {0.0f, 1.0f, 0.0f},   {0.0f, 0.0f, 1.0f}},
-		{{-0.5f, -0.5f, -3.0f},   {0.0f, 0.0f, 1.0f},   {0.0f, 0.0f, 1.0f}},
-		{{-0.5f,  0.5f, -3.0f},   {1.0f, 1.0f, 0.0f},   {0.0f, 0.0f, 1.0f}},
-	};
-	std::vector<unsigned int> Indices = {
-		0, 1, 2,
-		0, 3, 2
-	};
-
-	m_Mesh.loadData(Vertices, Indices);
-
-	std::cout << m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value() << "\n";
+	std::string GLTFFilename = m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value();
+	m_Model.loadGLTFModel(GLTFFilename, nullptr);
 }
 
 void COpenGLEngine::run()
@@ -58,8 +46,7 @@ void COpenGLEngine::run()
 
 		m_ShaderFacade.use();
 		__loadShaderConfig();
-		glBindVertexArray(m_Mesh.getVAO());
-		glDrawElements(GL_TRIANGLES, m_Mesh.getNumIndices(), GL_UNSIGNED_INT, 0);
+		m_Model.draw();
 
 		glfwSwapBuffers(m_pWindow);
 		glfwPollEvents();
@@ -108,7 +95,7 @@ void COpenGLEngine::__initWindow()
 void COpenGLEngine::__initShader()
 {
 	const hiveConfig::CHiveConfig* pShaderConfigList = m_EngineConfig.getSubconfigAt(2);
-	int NumShader = pShaderConfigList->getNumSubconfigs();
+	size_t NumShader = pShaderConfigList->getNumSubconfigs();
 
 	const std::vector<std::string> ShaderFiles = {
 		"perpixel_shading",
@@ -129,7 +116,7 @@ void COpenGLEngine::__initShader()
 		m_ShaderFacade.addShader(VertexShader, FragmentShader);
 	}
 	
-	m_EditableConfig.setAttribute(NUM_SHADER, m_ShaderFacade.getNumShader());
+	m_EditableConfig.setAttribute(NUM_SHADER, (int)m_ShaderFacade.getNumShader());
 	m_EditableConfig.setAttribute(WORKING_SHADER_ID, 0);
 }
 
@@ -143,6 +130,10 @@ void COpenGLEngine::__loadShaderConfig()
 	m_ShaderFacade.use();
 
 	glm::mat4 Model = glm::mat4(1.0f);
+	Model = glm::scale(Model, glm::vec3((0.1f, 0.1f, 0.1f))); // Ëõ·Å
+	Model = glm::rotate(Model, glm::radians(135.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // Ðý×ª
+	Model = glm::translate(Model, glm::vec3(0.0f, 0.3f, 6.0f));
+	//glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, -3.0f));
 	glm::mat4 View = glm::mat4(1.0f);
 	float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
 	int Width = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_WIDTH).value();
