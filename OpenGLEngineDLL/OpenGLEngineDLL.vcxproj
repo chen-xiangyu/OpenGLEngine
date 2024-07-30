@@ -237,6 +237,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RenderAlgorithm.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ShaderUnit.cpp" />
     <ClCompile Include="ShaderConfig.cpp" />
     <ClCompile Include="ShaderFacade.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderAlgorithm.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ShaderUnit.h" />
     <ClInclude Include="ShaderConfig.h" />
     <ClInclude Include="ShaderFacade.h" />

@@ -6,9 +6,10 @@
 double getCurrentTimeMilliseconds();
 glm::vec3 changeLightDir();
 
-//std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& vConfig);
+std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& vConfig);
 
-const std::string ShaderName = "perpixel_shading";
+const std::string PerpixelShaderName = "perpixel_shading";
+const std::string PervertexShaderName = "pervertex_shading";
 const std::map<std::string, std::function<std::any()>> UniformMap = {
 	{"Model", []() -> glm::mat4 {
 		glm::mat4 Model = glm::mat4(1.0f);
@@ -52,11 +53,22 @@ int main()
 
 	for (auto& Item : UniformMap)
 	{
-		Engine.setUniformToShader(ShaderName, Item.first, Item.second);
+		Engine.setUniformToShader(PerpixelShaderName, Item.first, Item.second);
+		Engine.setUniformToShader(PervertexShaderName, Item.first, Item.second);
 	}
 
-    //hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_A, hiveEngine::EKeyStatus::PRESS };
-    //Engine.bindInputEvent(Event, changeShader);
+    hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_A, hiveEngine::EKeyStatus::PRESS };
+	// 方案1
+    Engine.bindInputEvent(Event, changeShader);
+
+	// 方案 2
+	//std::vector<std::string> AlgorithmName = { "PerpixelShading", "PervertexShading" };
+	//int Index = 0;
+	//Engine.bindInputEvent(Event, [&](const hiveEngine::CEditableConfig& vConfig) -> std::map<std::string, std::any> {
+	//	Index = (Index + 1) % AlgorithmName.size();
+	//	Engine.changeRenderAlgorithm(AlgorithmName[Index]);
+	//	return {};
+	//	});
 
 	Engine.run();
 	return 0;
@@ -82,10 +94,11 @@ glm::vec3 changeLightDir()
 	return glm::vec3(X, Y, Z);
 }
 
-//std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& vConfig)
-//{
-//    int NumShader = vConfig.getAttribute<int>("NUM_SHADER").value();
-//    int CurrentID = vConfig.getAttribute<int>("WORKING_SHADER_ID").value();
-//
-//    return { {"WORKING_SHADER_ID", (CurrentID + 1) % NumShader} };
-//}
+std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& vConfig)
+{
+	static std::vector<std::string> AlgorithmNames = { "PerpixelShading", "PervertexShading" };
+	static int Index = 0;
+	Index = (Index + 1) % AlgorithmNames.size();
+	
+    return { {"WORKING_RENDER_ALGORITHM", AlgorithmNames[Index]} };
+}

@@ -162,6 +162,9 @@
     <ClCompile Include="DeferredRender.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLEngine.h">
@@ -327,6 +330,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DeferredRender.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

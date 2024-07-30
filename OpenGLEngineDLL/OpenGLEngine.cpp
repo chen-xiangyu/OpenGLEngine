@@ -38,9 +38,10 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 void COpenGLEngine::run()
 {
 	if (m_pWindow == nullptr) return;
-	m_RenderAlgorithms["PerpixelShading"]->init();
+
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
+		m_EditableConfig.applyAttributeModifiers();
 		m_InputController.handleInput(m_pWindow, m_EditableConfig);
 		//int CurrentID = m_EditableConfig.getAttribute<int>(WORKING_SHADER_ID).value();
 		//m_ShaderFacade.setCurrentShader(CurrentID);
@@ -52,7 +53,11 @@ void COpenGLEngine::run()
 		//m_ShaderFacade.use();
 		//__loadShaderConfig();
 		//m_Model.draw();
-		m_RenderAlgorithms["PerpixelShading"]->render(m_Model);
+		//m_RenderAlgorithms["PerpixelShading"]->render(m_Model);
+
+		std::string AlgorithmName = m_EditableConfig.getAttribute<std::string>(WORKING_RENDER_ALGORITHM).value();
+		m_RenderManager.changeRenderAlgorithm(AlgorithmName);
+		m_RenderManager.render(m_Model);
 
 		glfwSwapBuffers(m_pWindow);
 		glfwPollEvents();
@@ -98,34 +103,34 @@ void COpenGLEngine::__initWindow()
 	glfwSetFramebufferSizeCallback(m_pWindow, __adjustWindowSize);
 }
 
-void COpenGLEngine::__initShader()
-{
-	const hiveConfig::CHiveConfig* pShaderConfigList = m_EngineConfig.getSubconfigAt(2);
-	size_t NumShader = pShaderConfigList->getNumSubconfigs();
-
-	const std::vector<std::string> ShaderFiles = {
-		"perpixel_shading",
-		"pervertex_shading",
-	};
-	for (int i = 0; i < NumShader; i++)
-	{
-		//std::string t = ShaderFiles[i] + "|" + FILE_NAME;
-		std::string t = ShaderFiles[i] + "|" + "FILE_NAME";
-		std::string ShaderConfigFilename = pShaderConfigList->getAttribute<std::string>(t).value();
-
-		CShaderConfig ShaderConfig;
-		ShaderConfig.loadDefaultConfig();
-		hiveConfig::EParseResult Status = hiveConfig::hiveParseConfig(ShaderConfigFilename, hiveConfig::EConfigType::XML, &ShaderConfig);
-
-		std::string VertexShader = ShaderConfig.getAttribute<std::string>("vertex_shader|" + SHADER_SOURCE_FILE).value();
-		std::string FragmentShader = ShaderConfig.getAttribute<std::string>("fragment_shader|" + SHADER_SOURCE_FILE).value();
-
-		m_ShaderFacade.addShader(VertexShader, FragmentShader);
-	}
-	
-	m_EditableConfig.setAttribute(NUM_SHADER, (int)m_ShaderFacade.getNumShader());
-	m_EditableConfig.setAttribute(WORKING_SHADER_ID, 0);
-}
+//void COpenGLEngine::__initShader()
+//{
+//	const hiveConfig::CHiveConfig* pShaderConfigList = m_EngineConfig.getSubconfigAt(2);
+//	size_t NumShader = pShaderConfigList->getNumSubconfigs();
+//
+//	const std::vector<std::string> ShaderFiles = {
+//		"perpixel_shading",
+//		"pervertex_shading",
+//	};
+//	for (int i = 0; i < NumShader; i++)
+//	{
+//		//std::string t = ShaderFiles[i] + "|" + FILE_NAME;
+//		std::string t = ShaderFiles[i] + "|" + "FILE_NAME";
+//		std::string ShaderConfigFilename = pShaderConfigList->getAttribute<std::string>(t).value();
+//
+//		CShaderConfig ShaderConfig;
+//		ShaderConfig.loadDefaultConfig();
+//		hiveConfig::EParseResult Status = hiveConfig::hiveParseConfig(ShaderConfigFilename, hiveConfig::EConfigType::XML, &ShaderConfig);
+//
+//		std::string VertexShader = ShaderConfig.getAttribute<std::string>("vertex_shader|" + SHADER_SOURCE_FILE).value();
+//		std::string FragmentShader = ShaderConfig.getAttribute<std::string>("fragment_shader|" + SHADER_SOURCE_FILE).value();
+//
+//		m_ShaderFacade.addShader(VertexShader, FragmentShader);
+//	}
+//	
+//	m_EditableConfig.setAttribute(NUM_SHADER, (int)m_ShaderFacade.getNumShader());
+//	m_EditableConfig.setAttribute(WORKING_SHADER_ID, 0);
+//}
 
 void COpenGLEngine::__initRenderAlgorithm(const std::string& vFilename)
 {
@@ -134,7 +139,7 @@ void COpenGLEngine::__initRenderAlgorithm(const std::string& vFilename)
 	hiveConfig::EParseResult Status = hiveConfig::hiveParseConfig(vFilename, hiveConfig::EConfigType::XML, &ShaderConfig);
 
 	int AlgorithmNum = ShaderConfig.getNumSpecifiedSubconfigs(RENDER_ALGORITHM);
-	std::cout << AlgorithmNum << "\n";
+
 	for (int i = 0; i < AlgorithmNum; i++)
 	{
 		hiveConfig::CHiveConfig* pAlgorithmConfig = ShaderConfig.fetchSpecifiedSubconfigAt(RENDER_ALGORITHM, i);
@@ -168,11 +173,9 @@ void COpenGLEngine::__initRenderAlgorithm(const std::string& vFilename)
 
 			pRenderAlgorithm->addShader(RenderPassName, VSFilename, FSFilename);
 		}
-		m_RenderAlgorithms.insert(std::make_pair(AlgorithmName, pRenderAlgorithm));
-	}
-	for (auto Item : m_RenderAlgorithms)
-	{
-		std::cout << Item.first << " " << Item.second->getNumShaders() << "\n";
+		m_RenderManager.addRenderAlgorithm(AlgorithmName, pRenderAlgorithm);
+
+		if (i == 0) m_EditableConfig.setAttribute(WORKING_RENDER_ALGORITHM, AlgorithmName);
 	}
 }
 
@@ -181,46 +184,46 @@ void COpenGLEngine::__adjustWindowSize(GLFWwindow* vWindow, int vWidth, int vHei
 	glViewport(0, 0, vWidth, vHeight);
 }
 
-void COpenGLEngine::__loadShaderConfig()
-{
-	m_ShaderFacade.use();
-
-	glm::mat4 Model = glm::mat4(1.0f);
-	Model = glm::scale(Model, glm::vec3((0.1f, 0.1f, 0.1f))); // 缩放
-	Model = glm::rotate(Model, glm::radians(135.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // 旋转
-	Model = glm::translate(Model, glm::vec3(0.0f, 0.3f, 6.0f));
-	//glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, -3.0f));
-	glm::mat4 View = glm::mat4(1.0f);
-	float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
-	int Width = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_WIDTH).value();
-	int Height = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_HEIGHT).value();
-	glm::mat4 Projection = glm::perspective(glm::radians(FOV), (float)Width / Height, ZNear, ZFar);
-	m_ShaderFacade.setUniformMatrix4fv("Model", Model);
-	m_ShaderFacade.setUniformMatrix4fv("View", View);
-	m_ShaderFacade.setUniformMatrix4fv("Projection", Projection);
-
-	glm::vec3 Diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
-	glm::vec3 Specular = glm::vec3(0.1f, 0.1f, 0.1f);
-	glm::vec3 Ambient = glm::vec3(0.3f, 0.3f, 0.3f);
-	glm::vec3 ViewPos = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-	//glm::vec3 LightDir = glm::vec3(0.0f, 0.0f, 1.0f);
-	auto [x, y, z] = m_EngineConfig.getAttribute<std::tuple<double, double, double>>(LIGHT_DIRECTION).value();
-	glm::vec3 LightDir = glm::vec3(x, y, z);
-	float Shininess = 100.0f;
-
-	m_ShaderFacade.setUniform3fv("Diffuse", Diffuse);
-	m_ShaderFacade.setUniform3fv("Specular", Specular);
-	m_ShaderFacade.setUniform3fv("Ambient", Ambient);
-	m_ShaderFacade.setUniform3fv("ViewPos", ViewPos);
-	m_ShaderFacade.setUniform3fv("LightColor", LightColor);
-	m_ShaderFacade.setUniform3fv("LightDir", LightDir);
-	m_ShaderFacade.setUniformFloat("Shininess", Shininess);
-}
+//void COpenGLEngine::__loadShaderConfig()
+//{
+//	m_ShaderFacade.use();
+//
+//	glm::mat4 Model = glm::mat4(1.0f);
+//	Model = glm::scale(Model, glm::vec3((0.1f, 0.1f, 0.1f))); // 缩放
+//	Model = glm::rotate(Model, glm::radians(135.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // 旋转
+//	Model = glm::translate(Model, glm::vec3(0.0f, 0.3f, 6.0f));
+//	//glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, -3.0f));
+//	glm::mat4 View = glm::mat4(1.0f);
+//	float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
+//	int Width = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_WIDTH).value();
+//	int Height = m_EngineConfig.getAttribute<int>(WINDOW_SETTINGS + "|" + SCREEN_HEIGHT).value();
+//	glm::mat4 Projection = glm::perspective(glm::radians(FOV), (float)Width / Height, ZNear, ZFar);
+//	m_ShaderFacade.setUniformMatrix4fv("Model", Model);
+//	m_ShaderFacade.setUniformMatrix4fv("View", View);
+//	m_ShaderFacade.setUniformMatrix4fv("Projection", Projection);
+//
+//	glm::vec3 Diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+//	glm::vec3 Specular = glm::vec3(0.1f, 0.1f, 0.1f);
+//	glm::vec3 Ambient = glm::vec3(0.3f, 0.3f, 0.3f);
+//	glm::vec3 ViewPos = glm::vec3(0.0f, 0.0f, 0.0f);
+//	glm::vec3 LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+//	//glm::vec3 LightDir = glm::vec3(0.0f, 0.0f, 1.0f);
+//	auto [x, y, z] = m_EngineConfig.getAttribute<std::tuple<double, double, double>>(LIGHT_DIRECTION).value();
+//	glm::vec3 LightDir = glm::vec3(x, y, z);
+//	float Shininess = 100.0f;
+//
+//	m_ShaderFacade.setUniform3fv("Diffuse", Diffuse);
+//	m_ShaderFacade.setUniform3fv("Specular", Specular);
+//	m_ShaderFacade.setUniform3fv("Ambient", Ambient);
+//	m_ShaderFacade.setUniform3fv("ViewPos", ViewPos);
+//	m_ShaderFacade.setUniform3fv("LightColor", LightColor);
+//	m_ShaderFacade.setUniform3fv("LightDir", LightDir);
+//	m_ShaderFacade.setUniformFloat("Shininess", Shininess);
+//}
 
 void COpenGLEngine::bindAttributeModifier(const std::string& vName, const std::function<std::any()>& vModifier)
 {
-	m_EngineConfig.bindAttributeModifier(vName, vModifier);
+	m_EditableConfig.bindAttributeModifier(vName, vModifier);
 }
 
 void COpenGLEngine::bindInputEvent(const KeyEventType& vKeyEvent, const std::function<std::map<std::string, std::any>(const CEditableConfig&)> vCallback)
@@ -230,12 +233,10 @@ void COpenGLEngine::bindInputEvent(const KeyEventType& vKeyEvent, const std::fun
 
 void COpenGLEngine::setUniformToShader(const std::string& vShaderName, const std::string& vUniformName, const std::function<std::any()>& vModifier)
 {
-	for (auto& Item : m_RenderAlgorithms)
-	{
-		if (Item.second->isContainShader(vShaderName))
-		{
-			Item.second->setUniformToShader(vShaderName, vUniformName, vModifier);
-			break;
-		}
-	}
+	m_RenderManager.setUniformToShader(vShaderName, vUniformName, vModifier);
+}
+
+bool COpenGLEngine::changeRenderAlgorithm(const std::string& vAlgorithmName)
+{
+	return m_RenderManager.changeRenderAlgorithm(vAlgorithmName);
 }
