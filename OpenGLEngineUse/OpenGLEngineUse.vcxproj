@@ -146,9 +146,13 @@
     <Xml Include="PervertexShading.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\fragDeferredShadingGeometry.glsl" />
+    <None Include="shaders\fragDeferredShadingLighting.glsl" />
     <None Include="shaders\fragPerpixelShading.glsl" />
     <None Include="shaders\fragPervertexShading.glsl" />
     <None Include="packages.config" />
+    <None Include="shaders\vertDeferredShadingGeometry.glsl" />
+    <None Include="shaders\vertDeferredShadingLighting.glsl" />
     <None Include="shaders\vertPerpixelShading.glsl" />
     <None Include="shaders\vertPervertexShading.glsl" />
   </ItemGroup>

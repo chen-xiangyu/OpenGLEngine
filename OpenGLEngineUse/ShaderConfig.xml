@@ -19,6 +19,26 @@
 	<SHADER_SOURCE_FILE> ./shaders/fragPervertexShading.glsl </SHADER_SOURCE_FILE>
 </SHADER>
 
+<SHADER>
+	shader_deferred_shading_geometry_vs
+	<SHADER_SOURCE_FILE> ./shaders/vertDeferredShadingGeometry.glsl </SHADER_SOURCE_FILE>
+</SHADER>
+
+<SHADER>
+	shader_deferred_shading_geometry_fs
+	<SHADER_SOURCE_FILE> ./shaders/fragDeferredShadingGeometry.glsl </SHADER_SOURCE_FILE>
+</SHADER>
+
+<SHADER>
+	shader_deferred_shading_lighting_vs
+	<SHADER_SOURCE_FILE> ./shaders/vertDeferredShadingLighting.glsl </SHADER_SOURCE_FILE>
+</SHADER>
+
+<SHADER>
+	shader_deferred_shading_lighting_fs
+	<SHADER_SOURCE_FILE> ./shaders/fragDeferredShadingLighting.glsl </SHADER_SOURCE_FILE>
+</SHADER>
+
 <RENDER_ALGORITHM>
 	PerpixelShading
 	<RENDER_TYPE> forward_render </RENDER_TYPE>
@@ -43,13 +63,13 @@
 	DeferredShading
 	<RENDER_TYPE> deferred_render </RENDER_TYPE>
 	<RENDER_PASS>
-		deferred_shading1
-		<VERTEX_SHADER> shader_perpixel_shading_vs </VERTEX_SHADER>
-		<FRAGMENT_SHADER> shader_perpixel_shading_fs </FRAGMENT_SHADER>
+		geometry_pass
+		<VERTEX_SHADER> shader_deferred_shading_geometry_vs </VERTEX_SHADER>
+		<FRAGMENT_SHADER> shader_deferred_shading_geometry_fs </FRAGMENT_SHADER>
 	</RENDER_PASS>
 	<RENDER_PASS>
-		deferred_shading2
-		<VERTEX_SHADER> shader_pervertex_shading_vs </VERTEX_SHADER>
-		<FRAGMENT_SHADER> shader_pervertex_shading_fs </FRAGMENT_SHADER>
+		lighting_pass
+		<VERTEX_SHADER> shader_deferred_shading_lighting_vs </VERTEX_SHADER>
+		<FRAGMENT_SHADER> shader_deferred_shading_lighting_fs </FRAGMENT_SHADER>
 	</RENDER_PASS>
 </RENDER_ALGORITHM>

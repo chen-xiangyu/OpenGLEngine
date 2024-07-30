@@ -44,5 +44,9 @@
     <None Include="shaders\vertPerpixelShading.glsl" />
     <None Include="shaders\vertPervertexShading.glsl" />
     <None Include="shaders\fragPervertexShading.glsl" />
+    <None Include="shaders\fragDeferredShadingGeometry.glsl" />
+    <None Include="shaders\fragDeferredShadingLighting.glsl" />
+    <None Include="shaders\vertDeferredShadingGeometry.glsl" />
+    <None Include="shaders\vertDeferredShadingLighting.glsl" />
   </ItemGroup>
 </Project>

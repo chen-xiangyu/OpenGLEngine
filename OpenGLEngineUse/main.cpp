@@ -10,7 +10,7 @@ std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& 
 
 const std::string PerpixelShaderName = "perpixel_shading";
 const std::string PervertexShaderName = "pervertex_shading";
-const std::map<std::string, std::function<std::any()>> UniformMap = {
+const std::map<std::string, std::function<std::any()>> ForwardUniformMap = {
 	{"Model", []() -> glm::mat4 {
 		glm::mat4 Model = glm::mat4(1.0f);
 		Model = glm::scale(Model, glm::vec3((0.1f, 0.1f, 0.1f))); // 缩放
@@ -46,20 +46,64 @@ const std::map<std::string, std::function<std::any()>> UniformMap = {
 	}},
 };
 
+const std::string DeferredGeometryShaderName = "geometry_pass";
+const std::string DeferredLightingShaderName = "lighting_pass";
+const std::map<std::string, std::function<std::any()>> DeferredGeometryUniformMap = {
+	{"Model", []() -> glm::mat4 {
+		glm::mat4 Model = glm::mat4(1.0f);
+		Model = glm::scale(Model, glm::vec3((0.1f, 0.1f, 0.1f))); // 缩放
+		Model = glm::rotate(Model, glm::radians(135.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // 旋转
+		return Model;
+	}},
+	{"View", []() -> glm::mat4 {
+		return glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, -3.0f));
+	}},
+	{"Projection", []() -> glm::mat4 {
+		float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
+		int Width = 800, Height = 600;
+		return glm::perspective(glm::radians(FOV), (float)Width / Height, ZNear, ZFar);
+	}},
+};
+const std::map<std::string, std::function<std::any()>> DeferredLightingUniformMap = {
+	{"Ambient", []() -> glm::vec3 {
+		return glm::vec3(0.3f, 0.3f, 0.3f);
+	}},
+	{"ViewPos", []() -> glm::vec3 {
+		return glm::vec3(0.0f, 0.0f, 1.0f);
+	}},
+	{"LightColor", []() -> glm::vec3 {
+		return glm::vec3(1.0f, 1.0f, 1.0f);
+	}},
+	{"LightDir", changeLightDir},
+	{"Shininess", []() -> float {
+		return 100.0f;
+	}},
+};
+
 int main()
 {
 	hiveEngine::COpenGLEngine Engine;
 	Engine.init("OpenGLConfig.xml");
 
-	for (auto& Item : UniformMap)
+	for (auto& Item : ForwardUniformMap)
 	{
 		Engine.setUniformToShader(PerpixelShaderName, Item.first, Item.second);
 		Engine.setUniformToShader(PervertexShaderName, Item.first, Item.second);
 	}
 
-    hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_A, hiveEngine::EKeyStatus::PRESS };
+	for (auto& Item : DeferredGeometryUniformMap)
+	{
+		Engine.setUniformToShader(DeferredGeometryShaderName, Item.first, Item.second);
+	}
+	for (auto& Item : DeferredLightingUniformMap)
+	{
+		Engine.setUniformToShader(DeferredLightingShaderName, Item.first, Item.second);
+	}
+
+	// 绑定事件
+	hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_A, hiveEngine::EKeyStatus::PRESS };
 	// 方案1
-    Engine.bindInputEvent(Event, changeShader);
+	Engine.bindInputEvent(Event, changeShader);
 
 	// 方案 2
 	//std::vector<std::string> AlgorithmName = { "PerpixelShading", "PervertexShading" };
@@ -96,7 +140,11 @@ glm::vec3 changeLightDir()
 
 std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& vConfig)
 {
-	static std::vector<std::string> AlgorithmNames = { "PerpixelShading", "PervertexShading" };
+	static std::vector<std::string> AlgorithmNames = { 
+		"PerpixelShading", 
+		"PervertexShading",
+		//"DeferredShading",
+	};
 	static int Index = 0;
 	Index = (Index + 1) % AlgorithmNames.size();
 	
