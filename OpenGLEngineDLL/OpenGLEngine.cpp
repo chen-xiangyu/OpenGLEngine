@@ -10,8 +10,21 @@
 #include "ShaderConfig.h"
 #include "ForwardRender.h"
 #include "DeferredRender.h"
+#include "PerspectiveCamera.h"
+#include "TrackBallManipulator.h"
+#include "WalkThroughManipulator.h"
 
 using namespace hiveEngine;
+
+float COpenGLEngine::m_CursorXPos = 0.0f;
+float COpenGLEngine::m_CursorYPos = 0.0f;
+int COpenGLEngine::m_MouseButton = 0;
+int COpenGLEngine::m_MouseButtonAction = 0;
+int COpenGLEngine::m_MouseButtonMods = 0;
+float COpenGLEngine::m_MouseScrollOffset = 0.0f;
+int COpenGLEngine::m_Key = 0;
+int COpenGLEngine::m_KeyAction = 0;
+int COpenGLEngine::m_KeyMods = 0;
 
 void COpenGLEngine::init(const std::string& vConfigFilename)
 {
@@ -33,6 +46,13 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 
 	Filename = m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value();
 	m_Model.loadGLTFModel(Filename, nullptr);
+
+	m_Camera = new CPerspectiveCamera();
+	//m_CameraManipulator = new CWalkThroughManipulator();
+	m_CameraManipulator = new CTrackBallManipulator();
+	m_CameraManipulator->setCamera(m_Camera);
+	m_EditableConfig.setAttribute(IS_TRACKBALL, true);
+	m_IsTrackBall = true;
 }
 
 void COpenGLEngine::run()
@@ -41,19 +61,34 @@ void COpenGLEngine::run()
 
 	while (!glfwWindowShouldClose(m_pWindow))
 	{
+		if (m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value() != m_IsTrackBall)
+		{
+			if (m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value())
+			{
+				m_CameraManipulator = new CTrackBallManipulator();
+			}
+			else
+			{
+				m_CameraManipulator = new CWalkThroughManipulator();
+			}
+			m_CameraManipulator->setCamera(m_Camera);
+			m_IsTrackBall = m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value();
+		}
+		
+		m_CameraManipulator->onMouseButton(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
+		m_CameraManipulator->onMouseMove(m_CursorXPos, m_CursorYPos);
+		m_CameraManipulator->onMouseScroll(m_MouseScrollOffset);
+		m_CameraManipulator->onKeyboard(m_Key, m_KeyAction, m_KeyMods);
+		m_MouseScrollOffset = 0;
+
+		m_RenderManager.setUniformToShader("perpixel_shading", "View", [&]() -> glm::mat4{
+			return m_Camera->getViewMat();
+			});
+		m_RenderManager.setUniformToShader("perpixel_shading", "Projection", [&]() -> glm::mat4 {
+			return m_Camera->getProjectionMat();
+			});
 		m_EditableConfig.applyAttributeModifiers();
 		m_InputController.handleInput(m_pWindow, m_EditableConfig);
-		//int CurrentID = m_EditableConfig.getAttribute<int>(WORKING_SHADER_ID).value();
-		//m_ShaderFacade.setCurrentShader(CurrentID);
-		//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		//glClear(GL_COLOR_BUFFER_BIT);
-
-		//m_EngineConfig.applyAttributeModifiers();
-
-		//m_ShaderFacade.use();
-		//__loadShaderConfig();
-		//m_Model.draw();
-		//m_RenderAlgorithms["PerpixelShading"]->render(m_Model);
 
 		std::string AlgorithmName = m_EditableConfig.getAttribute<std::string>(WORKING_RENDER_ALGORITHM).value();
 		m_RenderManager.changeRenderAlgorithm(AlgorithmName);
@@ -100,7 +135,11 @@ void COpenGLEngine::__initWindow()
 
 	glfwMakeContextCurrent(m_pWindow);
 
-	glfwSetFramebufferSizeCallback(m_pWindow, __adjustWindowSize);
+	glfwSetFramebufferSizeCallback(m_pWindow, __onFramebufferCallback);
+	glfwSetCursorPosCallback(m_pWindow, __onCursorCallback);
+	glfwSetMouseButtonCallback(m_pWindow, __onMouseButtonCallback);
+	glfwSetScrollCallback(m_pWindow, __onMouseScrollCallback);
+	glfwSetKeyCallback(m_pWindow, __onKeyboardCallback);
 }
 
 //void COpenGLEngine::__initShader()
@@ -179,9 +218,34 @@ void COpenGLEngine::__initRenderAlgorithm(const std::string& vFilename)
 	}
 }
 
-void COpenGLEngine::__adjustWindowSize(GLFWwindow* vWindow, int vWidth, int vHeight)
+void COpenGLEngine::__onFramebufferCallback(GLFWwindow* vWindow, int vWidth, int vHeight)
 {
 	glViewport(0, 0, vWidth, vHeight);
+}
+
+void COpenGLEngine::__onCursorCallback(GLFWwindow* vWindow, double vXPos, double vYPos)
+{
+	m_CursorXPos = static_cast<float>(vXPos);
+	m_CursorYPos = static_cast<float>(vYPos);
+}
+
+void COpenGLEngine::__onMouseButtonCallback(GLFWwindow* vWindos, int vButton, int vAction, int vMods)
+{
+	m_MouseButton = vButton;
+	m_MouseButtonAction = vAction;
+	m_MouseButtonMods = vMods;
+}
+
+void COpenGLEngine::__onMouseScrollCallback(GLFWwindow* vWindow, double vOffsetX, double vOffsetY)
+{
+	m_MouseScrollOffset = vOffsetY;
+}
+
+void COpenGLEngine::__onKeyboardCallback(GLFWwindow* vWindow, int vKey, int vScancode, int vAction, int vMods)
+{
+	m_Key = vKey;
+	m_KeyAction = vAction;
+	m_KeyMods = vMods;
 }
 
 //void COpenGLEngine::__loadShaderConfig()

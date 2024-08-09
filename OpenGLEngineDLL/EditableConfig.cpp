@@ -16,6 +16,7 @@ void CEditableConfig::__defineAttributesV()
 	std::map<std::string, hiveConfig::EConfigDataType> Attributes = {
 		{NUM_SHADER, hiveConfig::EConfigDataType::ATTRIBUTE_INT},
 		{WORKING_RENDER_ALGORITHM, hiveConfig::EConfigDataType::ATTRIBUTE_STRING},
+		{IS_TRACKBALL, hiveConfig::EConfigDataType::ATTRIBUTE_BOOL},
 	};
 	for (const auto& Item : Attributes)
 	{

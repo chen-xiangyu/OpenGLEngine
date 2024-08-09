@@ -6,6 +6,8 @@ namespace hiveEngine
 	const std::string NUM_SHADER = "NUM_SHADER";
 	const std::string WORKING_RENDER_ALGORITHM = "WORKING_RENDER_ALGORITHM";
 
+	const std::string IS_TRACKBALL = "IS_TRACKBALL";
+
 	class CEditableConfig : public hiveConfig::CHiveConfig
 	{
 	public:

@@ -135,18 +135,6 @@
     <ClCompile Include="ModelLoader\light\PointLight.cpp">
       <Filter>ModelLoader\light</Filter>
     </ClCompile>
-    <ClCompile Include="ModelLoader\camera\ArcballController.cpp">
-      <Filter>ModelLoader\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLoader\camera\Camera.cpp">
-      <Filter>ModelLoader\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLoader\camera\FPSController.cpp">
-      <Filter>ModelLoader\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLoader\camera\PerspectiveCamera.cpp">
-      <Filter>ModelLoader\camera</Filter>
-    </ClCompile>
     <ClCompile Include="ModelLoader\utils\AssetsPath.cpp">
       <Filter>ModelLoader\utils</Filter>
     </ClCompile>
@@ -163,6 +151,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="RenderManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PerspectiveCamera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraManipulator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackBallManipulator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WalkThroughManipulator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -296,21 +299,6 @@
     <ClInclude Include="ModelLoader\light\PointLight.h">
       <Filter>ModelLoader\light</Filter>
     </ClInclude>
-    <ClInclude Include="ModelLoader\camera\ArcballController.h">
-      <Filter>ModelLoader\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLoader\camera\Camera.h">
-      <Filter>ModelLoader\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLoader\camera\FPSController.h">
-      <Filter>ModelLoader\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLoader\camera\PerspCamController.h">
-      <Filter>ModelLoader\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelLoader\camera\PerspectiveCamera.h">
-      <Filter>ModelLoader\camera</Filter>
-    </ClInclude>
     <ClInclude Include="ModelLoader\utils\AssetsPath.h">
       <Filter>ModelLoader\utils</Filter>
     </ClInclude>
@@ -333,6 +321,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RenderManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PerspectiveCamera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManipulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackBallManipulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WalkThroughManipulator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

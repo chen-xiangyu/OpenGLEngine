@@ -7,6 +7,7 @@ double getCurrentTimeMilliseconds();
 glm::vec3 changeLightDir();
 
 std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& vConfig);
+std::map<std::string, std::any> changeManipulator(const hiveEngine::CEditableConfig& vConfig);
 
 const std::string PerpixelShaderName = "perpixel_shading";
 const std::string PervertexShaderName = "pervertex_shading";
@@ -15,15 +16,8 @@ const std::map<std::string, std::function<std::any()>> ForwardUniformMap = {
 		glm::mat4 Model = glm::mat4(1.0f);
 		Model = glm::scale(Model, glm::vec3((0.1f, 0.1f, 0.1f))); // 缩放
 		Model = glm::rotate(Model, glm::radians(135.0f), glm::vec3(1.0f, 0.0f, 0.0f)); // 旋转
+		Model = glm::translate(Model, glm::vec3(0.0f, -3.3f, 10.0f));
 		return Model;
-	}},
-	{"View", []() -> glm::mat4 {
-		return glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, -3.0f));
-	}},
-	{"Projection", []() -> glm::mat4 {
-		float FOV = 45.0f, ZNear = 0.1f, ZFar = 100.f;
-		int Width = 800, Height = 600;
-		return glm::perspective(glm::radians(FOV), (float)Width / Height, ZNear, ZFar);
 	}},
 	{"Diffuse", []() -> glm::vec3 {
 		return glm::vec3(0.8f, 0.8f, 0.8f);
@@ -64,6 +58,7 @@ const std::map<std::string, std::function<std::any()>> DeferredGeometryUniformMa
 		return glm::perspective(glm::radians(FOV), (float)Width / Height, ZNear, ZFar);
 	}},
 };
+
 const std::map<std::string, std::function<std::any()>> DeferredLightingUniformMap = {
 	{"Ambient", []() -> glm::vec3 {
 		return glm::vec3(0.3f, 0.3f, 0.3f);
@@ -101,9 +96,11 @@ int main()
 	}
 
 	// 绑定事件
-	hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_A, hiveEngine::EKeyStatus::PRESS };
+	hiveEngine::KeyEventType Event = { hiveEngine::EKeyType::KEY_B, hiveEngine::EKeyStatus::PRESS };
+	Engine.bindInputEvent(Event, changeManipulator);
+
 	// 方案1
-	Engine.bindInputEvent(Event, changeShader);
+	//Engine.bindInputEvent(Event, changeShader);
 
 	// 方案 2
 	//std::vector<std::string> AlgorithmName = { "PerpixelShading", "PervertexShading" };
@@ -149,4 +146,10 @@ std::map<std::string, std::any> changeShader(const hiveEngine::CEditableConfig& 
 	Index = (Index + 1) % AlgorithmNames.size();
 	
     return { {"WORKING_RENDER_ALGORITHM", AlgorithmNames[Index]} };
+}
+
+std::map<std::string, std::any> changeManipulator(const hiveEngine::CEditableConfig& vConfig)
+{
+	bool IsTrackBall = vConfig.getAttribute<bool>("IS_TRACKBALL").value();
+	return { {"IS_TRACKBALL", !IsTrackBall} };
 }

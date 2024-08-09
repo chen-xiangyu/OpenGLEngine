@@ -13,5 +13,6 @@
 #include <memory>
 #include <chrono>
 #include <format>
+#include <algorithm>
 
 #include "HiveLogger.h"
