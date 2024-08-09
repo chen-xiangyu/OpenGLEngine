@@ -40,8 +40,8 @@ namespace hiveEngine
 		CInputController m_InputController;
 		CGLTFModel m_Model;
 		CRenderManager m_RenderManager;
-		ICamera* m_Camera = nullptr;
-		ICameraManipulator* m_CameraManipulator = nullptr;
+		ICamera* m_pCamera = nullptr;
+		ICameraManipulator* m_pCameraManipulator = nullptr;
 		bool m_IsTrackBall;
 
 		static float m_CursorXPos;

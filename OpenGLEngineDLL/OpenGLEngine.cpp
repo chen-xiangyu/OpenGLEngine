@@ -47,10 +47,10 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	Filename = m_EngineConfig.getAttribute<std::string>(GLTF_FILE).value();
 	m_Model.loadGLTFModel(Filename, nullptr);
 
-	m_Camera = new CPerspectiveCamera();
+	m_pCamera = new CPerspectiveCamera();
 	//m_CameraManipulator = new CWalkThroughManipulator();
-	m_CameraManipulator = new CTrackBallManipulator();
-	m_CameraManipulator->setCamera(m_Camera);
+	m_pCameraManipulator = new CTrackBallManipulator();
+	m_pCameraManipulator->setCamera(m_pCamera);
 	m_EditableConfig.setAttribute(IS_TRACKBALL, true);
 	m_IsTrackBall = true;
 }
@@ -65,27 +65,27 @@ void COpenGLEngine::run()
 		{
 			if (m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value())
 			{
-				m_CameraManipulator = new CTrackBallManipulator();
+				m_pCameraManipulator = new CTrackBallManipulator();
 			}
 			else
 			{
-				m_CameraManipulator = new CWalkThroughManipulator();
+				m_pCameraManipulator = new CWalkThroughManipulator();
 			}
-			m_CameraManipulator->setCamera(m_Camera);
+			m_pCameraManipulator->setCamera(m_pCamera);
 			m_IsTrackBall = m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value();
 		}
 		
-		m_CameraManipulator->onMouseButton(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
-		m_CameraManipulator->onMouseMove(m_CursorXPos, m_CursorYPos);
-		m_CameraManipulator->onMouseScroll(m_MouseScrollOffset);
-		m_CameraManipulator->onKeyboard(m_Key, m_KeyAction, m_KeyMods);
+		m_pCameraManipulator->onMouseButton(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
+		m_pCameraManipulator->onMouseMove(m_CursorXPos, m_CursorYPos);
+		m_pCameraManipulator->onMouseScroll(m_MouseScrollOffset);
+		m_pCameraManipulator->onKeyboard(m_Key, m_KeyAction, m_KeyMods);
 		m_MouseScrollOffset = 0;
 
 		m_RenderManager.setUniformToShader("perpixel_shading", "View", [&]() -> glm::mat4{
-			return m_Camera->getViewMat();
+			return m_pCamera->getViewMat();
 			});
 		m_RenderManager.setUniformToShader("perpixel_shading", "Projection", [&]() -> glm::mat4 {
-			return m_Camera->getProjectionMat();
+			return m_pCamera->getProjectionMat();
 			});
 		m_EditableConfig.applyAttributeModifiers();
 		m_InputController.handleInput(m_pWindow, m_EditableConfig);
