@@ -37,6 +37,9 @@
     <Xml Include="PervertexShading.xml">
       <Filter>源文件</Filter>
     </Xml>
+    <Xml Include="CameraConfig.xml">
+      <Filter>源文件</Filter>
+    </Xml>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

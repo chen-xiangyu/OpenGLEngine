@@ -10,25 +10,34 @@ ICamera::ICamera()
 
 void ICamera::__updateViewMat()
 {
-	glm::vec3 Front = glm::cross(m_Up, m_Right);
-	glm::vec3 Center = m_Position + Front;
-	m_ViewMat = glm::lookAt(m_Position, Center, m_Up);
+	m_ViewMat = glm::lookAt(m_EyePos, m_EyePos + m_Lookat, m_Up);
 }
 
-void ICamera::setPosition(const glm::vec3& vPosition)
+void ICamera::setEyePosition(const glm::vec3& vEyePos)
 {
-	m_Position = vPosition;
+	m_EyePos = vEyePos;
 	__updateViewMat();
 }
 
 void ICamera::setRight(const glm::vec3& vRight)
 {
 	m_Right = vRight;
+	m_Lookat = glm::cross(m_Up, m_Right);
 	__updateViewMat();
 }
 
 void ICamera::setUp(const glm::vec3& vUp)
 {
 	m_Up = vUp;
+	m_Lookat = glm::cross(m_Up, m_Right);
+	__updateViewMat();
+}
+
+//*******************************************************
+//Function:
+void ICamera::setLookat(const glm::vec3& vLookat)
+{
+	m_Lookat = vLookat;
+	m_Right = glm::cross(m_Lookat, m_Up);
 	__updateViewMat();
 }

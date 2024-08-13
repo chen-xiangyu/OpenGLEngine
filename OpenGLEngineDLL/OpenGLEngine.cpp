@@ -11,6 +11,7 @@
 #include "ForwardRender.h"
 #include "DeferredRender.h"
 #include "PerspectiveCamera.h"
+#include "OrthographicCamera.h"
 #include "TrackBallManipulator.h"
 #include "WalkThroughManipulator.h"
 
@@ -48,6 +49,8 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	m_Model.loadGLTFModel(Filename, nullptr);
 
 	m_pCamera = new CPerspectiveCamera();
+	//m_pCamera = new COrthographicCamera();
+	//m_pCamera->setLookat(glm::vec3(0.0f, 0.0f, -1.0f));
 	//m_CameraManipulator = new CWalkThroughManipulator();
 	m_pCameraManipulator = new CTrackBallManipulator();
 	m_pCameraManipulator->setCamera(m_pCamera);
@@ -75,10 +78,10 @@ void COpenGLEngine::run()
 			m_IsTrackBall = m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value();
 		}
 		
-		m_pCameraManipulator->onMouseButton(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
-		m_pCameraManipulator->onMouseMove(m_CursorXPos, m_CursorYPos);
-		m_pCameraManipulator->onMouseScroll(m_MouseScrollOffset);
-		m_pCameraManipulator->onKeyboard(m_Key, m_KeyAction, m_KeyMods);
+		m_pCameraManipulator->onMouseButtonClickedV(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
+		m_pCameraManipulator->onMouseMovedV(m_CursorXPos, m_CursorYPos);
+		m_pCameraManipulator->onMouseScrolledV(m_MouseScrollOffset);
+		m_pCameraManipulator->onKeyPressedV(m_Key, m_KeyAction, m_KeyMods);
 		m_MouseScrollOffset = 0;
 
 		m_RenderManager.setUniformToShader("perpixel_shading", "View", [&]() -> glm::mat4{

@@ -15,10 +15,10 @@ void CPerspectiveCamera::_updateProjectionMat()
 
 void CPerspectiveCamera::scale(float vValue)
 {
-	glm::vec3 Front = glm::cross(getUp(), getRight());
-	glm::vec3 Position = getPosition();
-	Position += vValue * Front;
-	setPosition(Position);
+	glm::vec3 Lookat = getLookat();
+	glm::vec3 EyePos = getEyePosition();
+	EyePos += vValue * Lookat;
+	setEyePosition(EyePos);
 }
 
 void CPerspectiveCamera::setFov(float vFov)

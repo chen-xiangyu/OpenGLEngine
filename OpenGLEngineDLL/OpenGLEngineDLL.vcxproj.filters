@@ -168,6 +168,9 @@
     <ClCompile Include="WalkThroughManipulator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="OrthographicCamera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OpenGLEngine.h">
@@ -336,6 +339,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="WalkThroughManipulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OrthographicCamera.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

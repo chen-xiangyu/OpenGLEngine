@@ -7,22 +7,21 @@ namespace hiveEngine
 	{
 	public:
 		ICameraManipulator() = default;
-		~ICameraManipulator() = default;
+		virtual ~ICameraManipulator() = default;
 
-		void setCamera(ICamera* vCamera) { m_pCamera = vCamera; }
-		void setSensitivity(float vSensitivity) { m_Sensitvity = vSensitivity; }
-		void setMoveSpeed(float vMoveSpeed) { m_MoveSpeed = vMoveSpeed; }
+		void setCamera(ICamera* vCamera);
+		void setSensitivity(float vSensitivity);
+		void setMoveSpeed(float vMoveSpeed);
 
-		virtual void onMouseMove(float vXPos, float vYPos) {};
-		virtual void onMouseButton(int vButton, int vAction, int vMods) {};
-		virtual void onMouseScroll(float vOffsetY) {};
-		virtual void onKeyboard(int vKey, int vAction, int vMods) {};
+		virtual void onMouseMovedV(float vXPos, float vYPos) {};
+		virtual void onMouseButtonClickedV(int vButton, int vAction, int vMods) {};
+		virtual void onMouseScrolledV(float vOffsetY) {};
+		virtual void onKeyPressedV(int vKey, int vAction, int vMods) {};
 
 	protected:
 		ICamera* m_pCamera = nullptr;
 		float m_Sensitvity = 0.5f;
 		float m_MoveSpeed = 0.01f;
-		float m_ScaleSpeed = 0.1f;
 
 	private:
 

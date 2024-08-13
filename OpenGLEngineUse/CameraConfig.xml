@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CameraConfigSet>
+	<Camera>
+		perspective_camera
+		<camera_type> perspective </camera_type>
+		<eye_position>  </eye_position>
+		<up>  </up>
+		<right>  </right>
+		<lookat>  </lookat>
+		<fov></fov>
+		<aspect>  </aspect>
+		<zfar></zfar>
+		<znear></znear>
+	</Camera>
+	<CameraManipulator>
+		track_ball_manipulator
+		<camera>  </camera>
+		<manipulator_type> TrackBall </manipulator_type>
+		<sensitvity> 0.5 </sensitvity>
+		<move_speed> 0.01 </move_speed>
+		<scroll_speed> 0.05 </scroll_speed>
+	</CameraManipulator>
+	<CameraManipulator>
+		walk_through_manipulator
+		<camera>  </camera>
+		<manipulator_type> WalkThrough </manipulator_type>
+		<sensitvity> 0.5 </sensitvity>
+		<move_speed> 0.01 </move_speed>
+		<scroll_speed> 0.1 </scroll_speed>
+	</CameraManipulator>
+</CameraConfigSet>

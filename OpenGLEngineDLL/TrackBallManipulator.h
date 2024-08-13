@@ -9,17 +9,18 @@ namespace hiveEngine
 		CTrackBallManipulator() = default;
 		~CTrackBallManipulator() = default;
 
-		void onMouseMove(float vPosX, float vPosY) override;
-		void onMouseButton(int vButton, int vAction, int vMods) override;
-		void onMouseScroll(float vOffsetY) override;
+		void onMouseMovedV(float vPosX, float vPosY) override;
+		void onMouseButtonClickedV(int vButton, int vAction, int vMods) override;
+		void onMouseScrolledV(float vOffsetY) override;
 
 	private:
-		float m_LastX = 0;
-		float m_LastY = 0;
-		bool m_IsMouseLeftPressed = false;
-		bool m_IsMouseRightPressed = false;
-		bool m_IsMouseMiddlePressed = false;
-		bool m_IsFirst = true;
+		float m_CursorPosX = 0;
+		float m_CursorPosY = 0;
+		bool m_IsCursorFirstEnter = false;
+		bool m_IsMouseLeftDown = false;
+		bool m_IsMouseRightDown = false;
+
+		float m_ScaleSpeed = 0.05f;
 
 		void __changePitch(float vAngle);
 		void __changeYaw(float vAngle);

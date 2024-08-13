@@ -141,6 +141,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="CameraConfig.xml" />
     <Xml Include="OpenGLConfig.xml" />
     <Xml Include="ShaderConfig.xml" />
     <Xml Include="PervertexShading.xml" />
