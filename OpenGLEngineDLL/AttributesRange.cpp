@@ -17,3 +17,6 @@ const std::set<std::string> CProfileRange::m_Profiles = {
 const std::string CProfileRange::m_DefaultValue = "GLFW_OPENGL_CORE_PROFILE";
 
 const std::pair<int, int> CScreenSizeRange::m_DefaultValue = { 800, 600 };
+
+
+// in master
