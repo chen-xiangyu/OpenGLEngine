@@ -11,7 +11,7 @@ namespace hiveEngine
 
 		void onMouseMovedV(float vPosX, float vPosY) override;
 		void onMouseButtonClickedV(int vButton, int vAction, int vMods) override;
-		void onMouseScrolledV(float vOffsetY) override;
+		void onMouseScrolledV(float vOffsetX, float vOffsetY) override;
 
 	private:
 		float m_CursorPosX = 0;

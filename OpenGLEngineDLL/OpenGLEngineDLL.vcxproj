@@ -216,6 +216,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MouseHandler.cpp" />
     <ClCompile Include="OpenGLEngine.cpp" />
     <ClCompile Include="EngineConfig.cpp" />
     <ClCompile Include="OrthographicCamera.cpp" />
@@ -278,6 +279,7 @@
     <ClInclude Include="ModelLoader\utils\AssetsPath.h" />
     <ClInclude Include="ModelLoader\utils\InputHandler.h" />
     <ClInclude Include="ModelLoader\utils\safe.h" />
+    <ClInclude Include="MouseHandler.h" />
     <ClInclude Include="OpenGLEngine.h" />
     <ClInclude Include="EngineConfig.h" />
     <ClInclude Include="OrthographicCamera.h" />

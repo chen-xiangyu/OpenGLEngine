@@ -47,7 +47,7 @@ void CTrackBallManipulator::onMouseButtonClickedV(int vButton, int vAction, int 
 	}
 }
 
-void CTrackBallManipulator::onMouseScrolledV(float vOffsetY)
+void CTrackBallManipulator::onMouseScrolledV(float vOffsetX, float vOffsetY)
 {
 	_ASSERTE(m_pCamera);
 	m_pCamera->scale(vOffsetY * m_ScaleSpeed);

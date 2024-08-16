@@ -56,6 +56,14 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	m_pCameraManipulator->setCamera(m_pCamera);
 	m_EditableConfig.setAttribute(IS_TRACKBALL, true);
 	m_IsTrackBall = true;
+	//m_MouseHandler.registerMouseMovedCallback(m_pCameraManipulator->onMouseMovedV);
+	m_MouseHandler.registerMouseMovedCallback(
+		std::bind(&ICameraManipulator::onMouseMovedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2));
+	m_MouseHandler.registerMouseBottonClickedCallback(
+		std::bind(&ICameraManipulator::onMouseButtonClickedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	m_MouseHandler.registerMouseScrolledCallback(
+		std::bind(&ICameraManipulator::onMouseScrolledV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2));
+	m_MouseHandler.bindCallbackToWindow(m_pWindow);
 }
 
 void COpenGLEngine::run()
@@ -78,9 +86,9 @@ void COpenGLEngine::run()
 			m_IsTrackBall = m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value();
 		}
 		
-		m_pCameraManipulator->onMouseButtonClickedV(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
-		m_pCameraManipulator->onMouseMovedV(m_CursorXPos, m_CursorYPos);
-		m_pCameraManipulator->onMouseScrolledV(m_MouseScrollOffset);
+		//m_pCameraManipulator->onMouseButtonClickedV(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);
+		//m_pCameraManipulator->onMouseMovedV(m_CursorXPos, m_CursorYPos);
+		//m_pCameraManipulator->onMouseScrolledV(m_MouseScrollOffset);
 		m_pCameraManipulator->onKeyPressedV(m_Key, m_KeyAction, m_KeyMods);
 		m_MouseScrollOffset = 0;
 
@@ -139,9 +147,9 @@ void COpenGLEngine::__initWindow()
 	glfwMakeContextCurrent(m_pWindow);
 
 	glfwSetFramebufferSizeCallback(m_pWindow, __onFramebufferCallback);
-	glfwSetCursorPosCallback(m_pWindow, __onCursorCallback);
-	glfwSetMouseButtonCallback(m_pWindow, __onMouseButtonCallback);
-	glfwSetScrollCallback(m_pWindow, __onMouseScrollCallback);
+	//glfwSetCursorPosCallback(m_pWindow, __onCursorCallback);
+	//glfwSetMouseButtonCallback(m_pWindow, __onMouseButtonCallback);
+	//glfwSetScrollCallback(m_pWindow, __onMouseScrollCallback);
 	glfwSetKeyCallback(m_pWindow, __onKeyboardCallback);
 }
 

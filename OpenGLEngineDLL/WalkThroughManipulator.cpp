@@ -22,7 +22,7 @@ void CWalkThroughManipulator::onMouseMovedV(float vPosX, float vPosY)
 	__changePitch(-OffsetY * m_Sensitvity);
 }
 
-void CWalkThroughManipulator::onMouseScrolledV(float vOffsetY)
+void CWalkThroughManipulator::onMouseScrolledV(float vOffsetX, float vOffsetY)
 {
 	_ASSERTE(m_pCamera);
 	m_pCamera->scale(vOffsetY * m_ScaleSpeed);

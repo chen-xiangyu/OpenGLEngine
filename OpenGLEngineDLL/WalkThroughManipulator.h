@@ -10,7 +10,7 @@ namespace hiveEngine
 		~CWalkThroughManipulator() = default;
 
 		void onMouseMovedV(float vPosX, float vPosY) override;
-		void onMouseScrolledV(float vOffsetY) override;
+		void onMouseScrolledV(float vOffsetX, float vOffsetY) override;
 		void onKeyPressedV(int vKey, int vAction, int vMods) override;
 
 	private:
