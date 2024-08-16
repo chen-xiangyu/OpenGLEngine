@@ -143,6 +143,7 @@
     <ClCompile Include="ForwardRender.cpp" />
     <ClCompile Include="GLTFModel.cpp" />
     <ClCompile Include="InputController.cpp" />
+    <ClCompile Include="KeyboardHandler.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ModelLoader\base\Framebuffer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -247,6 +248,7 @@
     <ClInclude Include="ForwardRender.h" />
     <ClInclude Include="GLTFModel.h" />
     <ClInclude Include="InputController.h" />
+    <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ModelLoader\base\Framebuffer.h" />
     <ClInclude Include="ModelLoader\base\RenderBuffer.h" />

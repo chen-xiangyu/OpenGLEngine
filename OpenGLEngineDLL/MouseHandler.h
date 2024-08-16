@@ -25,16 +25,16 @@ namespace hiveEngine
 		void unregisterMouseScrolledCallbackByID(int vID);
 
 	private:
-		std::map<int, MouseMovedCallback> m_MouseMovedCallbacks;
-		std::map<int, MouseBottonClickedCallback> m_MouseButtonClickedCallbacks;
-		std::map<int, MouseScrolledCallback> m_MouseScrolledCallbacks;
+		static std::map<int, MouseMovedCallback> m_MouseMovedCallbacks;
+		static std::map<int, MouseBottonClickedCallback> m_MouseButtonClickedCallbacks;
+		static std::map<int, MouseScrolledCallback> m_MouseScrolledCallbacks;
 
-		int m_MouseMovedCallbackID = 0;
-		int m_MouseButtonClickedCallbackID = 0;
-		int m_MouseScrolledCallbackID = 0;
+		static int m_MouseMovedCallbackID;
+		static int m_MouseButtonClickedCallbackID;
+		static int m_MouseScrolledCallbackID;
 
-		void __bindCursorCallback(GLFWwindow* vWindow, double vXPos, double vYPos);
-		void __bindMouseButtonCallback(GLFWwindow* vWindow, int vButton, int vAction, int vMods);
-		void __bindMouseScrollCallback(GLFWwindow* vWindow, double vOffsetX, double vOffsetY);
+		static void __bindCursorCallback(GLFWwindow* vWindow, double vXPos, double vYPos);
+		static void __bindMouseButtonCallback(GLFWwindow* vWindow, int vButton, int vAction, int vMods);
+		static void __bindMouseScrollCallback(GLFWwindow* vWindow, double vOffsetX, double vOffsetY);
 	};
 }

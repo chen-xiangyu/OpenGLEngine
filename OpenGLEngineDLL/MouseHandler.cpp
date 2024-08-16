@@ -2,18 +2,30 @@
 #include "MouseHandler.h"
 
 using namespace hiveEngine;
+
+std::map<int, CMouseHandler::MouseMovedCallback> CMouseHandler::m_MouseMovedCallbacks;
+std::map<int, CMouseHandler::MouseBottonClickedCallback> CMouseHandler::m_MouseButtonClickedCallbacks;
+std::map<int, CMouseHandler::MouseScrolledCallback> CMouseHandler::m_MouseScrolledCallbacks;
+
+int CMouseHandler::m_MouseMovedCallbackID = 0;
+int CMouseHandler::m_MouseButtonClickedCallbackID = 0;
+int CMouseHandler::m_MouseScrolledCallbackID = 0;
+
 void CMouseHandler::bindCallbackToWindow(GLFWwindow* vWindow)
 {
 	glfwSetWindowUserPointer(vWindow, this);
-	glfwSetCursorPosCallback(vWindow, [](GLFWwindow* vWindow, double vXPos, double vYPos) {
-		static_cast<CMouseHandler*>(glfwGetWindowUserPointer(vWindow))->__bindCursorCallback(vWindow, vXPos, vYPos);
-		});
-	glfwSetMouseButtonCallback(vWindow, [](GLFWwindow* vWindow, int vButton, int vAction, int vMods){
-		static_cast<CMouseHandler*>(glfwGetWindowUserPointer(vWindow))->__bindMouseButtonCallback(vWindow, vButton, vAction, vMods);
-		});
-	glfwSetScrollCallback(vWindow, [](GLFWwindow* vWindow, double vOffsetX, double vOffsetY) {
-		static_cast<CMouseHandler*>(glfwGetWindowUserPointer(vWindow))->__bindMouseScrollCallback(vWindow, vOffsetX, vOffsetY);
-		});
+	glfwSetCursorPosCallback(vWindow, __bindCursorCallback);
+	glfwSetMouseButtonCallback(vWindow, __bindMouseButtonCallback);
+	glfwSetScrollCallback(vWindow, __bindMouseScrollCallback);
+	//glfwSetCursorPosCallback(vWindow, [](GLFWwindow* vWindow, double vXPos, double vYPos) {
+	//	static_cast<CMouseHandler*>(glfwGetWindowUserPointer(vWindow))->__bindCursorCallback(vWindow, vXPos, vYPos);
+	//	});
+	//glfwSetMouseButtonCallback(vWindow, [](GLFWwindow* vWindow, int vButton, int vAction, int vMods){
+	//	static_cast<CMouseHandler*>(glfwGetWindowUserPointer(vWindow))->__bindMouseButtonCallback(vWindow, vButton, vAction, vMods);
+	//	});
+	//glfwSetScrollCallback(vWindow, [](GLFWwindow* vWindow, double vOffsetX, double vOffsetY) {
+	//	static_cast<CMouseHandler*>(glfwGetWindowUserPointer(vWindow))->__bindMouseScrollCallback(vWindow, vOffsetX, vOffsetY);
+	//	});
 }
 
 int CMouseHandler::registerMouseMovedCallback(const MouseMovedCallback& vCallback)

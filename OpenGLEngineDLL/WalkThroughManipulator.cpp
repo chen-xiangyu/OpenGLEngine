@@ -28,12 +28,12 @@ void CWalkThroughManipulator::onMouseScrolledV(float vOffsetX, float vOffsetY)
 	m_pCamera->scale(vOffsetY * m_ScaleSpeed);
 }
 
-void CWalkThroughManipulator::onKeyPressedV(int vKey, int vAction, int vMods)
+void CWalkThroughManipulator::onKeyPressedV(int vKey, int vScancode, int vAction, int vMods)
 {
 	_ASSERTE(m_pCamera);
-	if (vAction == GLFW_REPEAT) return;
+	//if (vAction == GLFW_REPEAT) return;
 
-	m_KeyStatus[vKey] = vAction == GLFW_PRESS ? true : false;
+	m_KeyStatus[vKey] = (vAction == GLFW_PRESS || vAction == GLFW_REPEAT) ? true : false;
 	__translateCamera();
 }
 

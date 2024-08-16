@@ -16,7 +16,7 @@ namespace hiveEngine
 		virtual void onMouseMovedV(float vXPos, float vYPos) {};
 		virtual void onMouseButtonClickedV(int vButton, int vAction, int vMods) {};
 		virtual void onMouseScrolledV(float vOffsetX, float vOffsetY) {};
-		virtual void onKeyPressedV(int vKey, int vAction, int vMods) {};
+		virtual void onKeyPressedV(int vKey, int vScancode, int vAction, int vMods) {};
 
 	protected:
 		ICamera* m_pCamera = nullptr;

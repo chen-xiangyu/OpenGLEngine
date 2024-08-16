@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "CameraManipulator.h"
 #include "MouseHandler.h"
+#include "KeyboardHandler.h"
 
 #ifdef OPENGL_ENGINE_EXPORTS
 #define OPENGL_ENGINE_API __declspec(dllexport)
@@ -44,6 +45,8 @@ namespace hiveEngine
 		ICamera* m_pCamera = nullptr;
 		ICameraManipulator* m_pCameraManipulator = nullptr;
 		CMouseHandler m_MouseHandler;
+		CKeyboardHandler m_KeyboardHandler;
+
 		bool m_IsTrackBall;
 
 		static float m_CursorXPos;
