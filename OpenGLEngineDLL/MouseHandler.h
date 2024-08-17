@@ -1,19 +1,21 @@
 #pragma once
 #include <GLFW/glfw3.h>
+#include "Singleton.h"
 
 namespace hiveEngine
 {
-	class CMouseHandler
+	class CMouseHandler : public hiveCommon::CSingleton<CMouseHandler>
 	{
+		friend class hiveCommon::CSingleton<CMouseHandler>;
 	private:
 		using MouseMovedCallback = std::function<void(int, int)>;
 		using MouseBottonClickedCallback = std::function<void(int, int, int)>;
 		using MouseScrolledCallback = std::function<void(int, int)>;
 
-	public:
 		CMouseHandler() = default;
 		~CMouseHandler() = default;
 
+	public:
 		void bindCallbackToWindow(GLFWwindow* vWindow);
 
 		int registerMouseMovedCallback(const MouseMovedCallback& vCallback);

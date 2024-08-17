@@ -56,18 +56,19 @@ void COpenGLEngine::init(const std::string& vConfigFilename)
 	m_pCameraManipulator->setCamera(m_pCamera);
 	m_EditableConfig.setAttribute(IS_TRACKBALL, true);
 	m_IsTrackBall = true;
-
-	m_MouseHandler.registerMouseMovedCallback(
+	m_pKeyboardHandler = CKeyboardHandler::getInstance();
+	m_pMouseHandler = CMouseHandler::getInstance();
+	m_pMouseHandler->registerMouseMovedCallback(
 		std::bind(&ICameraManipulator::onMouseMovedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2));
-	m_MouseHandler.registerMouseBottonClickedCallback(
+	m_pMouseHandler->registerMouseBottonClickedCallback(
 		std::bind(&ICameraManipulator::onMouseButtonClickedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-	m_MouseHandler.registerMouseScrolledCallback(
+	m_pMouseHandler->registerMouseScrolledCallback(
 		std::bind(&ICameraManipulator::onMouseScrolledV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2));
-	m_MouseHandler.bindCallbackToWindow(m_pWindow);
+	m_pMouseHandler->bindCallbackToWindow(m_pWindow);
 
-	m_KeyboardHandler.registerKeyPressedCallback(
+	m_pKeyboardHandler->registerKeyPressedCallback(
 		std::bind(&ICameraManipulator::onKeyPressedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-	m_KeyboardHandler.bindCallbackToWindow(m_pWindow);
+	m_pKeyboardHandler->bindCallbackToWindow(m_pWindow);
 }
 
 void COpenGLEngine::run()
@@ -89,17 +90,17 @@ void COpenGLEngine::run()
 			m_pCameraManipulator->setCamera(m_pCamera);
 			m_IsTrackBall = m_EditableConfig.getAttribute<bool>(IS_TRACKBALL).value();
 
-			m_MouseHandler.registerMouseMovedCallback(
+			m_pMouseHandler->registerMouseMovedCallback(
 				std::bind(&ICameraManipulator::onMouseMovedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2));
-			m_MouseHandler.registerMouseBottonClickedCallback(
+			m_pMouseHandler->registerMouseBottonClickedCallback(
 				std::bind(&ICameraManipulator::onMouseButtonClickedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-			m_MouseHandler.registerMouseScrolledCallback(
+			m_pMouseHandler->registerMouseScrolledCallback(
 				std::bind(&ICameraManipulator::onMouseScrolledV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2));
-			m_MouseHandler.bindCallbackToWindow(m_pWindow);
+			m_pMouseHandler->bindCallbackToWindow(m_pWindow);
 
-			m_KeyboardHandler.registerKeyPressedCallback(
+			m_pKeyboardHandler->registerKeyPressedCallback(
 				std::bind(&ICameraManipulator::onKeyPressedV, m_pCameraManipulator, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-			m_KeyboardHandler.bindCallbackToWindow(m_pWindow);
+			m_pKeyboardHandler->bindCallbackToWindow(m_pWindow);
 		}
 		
 		//m_pCameraManipulator->onMouseButtonClickedV(m_MouseButton, m_MouseButtonAction, m_MouseButtonMods);

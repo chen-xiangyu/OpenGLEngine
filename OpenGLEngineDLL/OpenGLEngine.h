@@ -44,8 +44,8 @@ namespace hiveEngine
 		CRenderManager m_RenderManager;
 		ICamera* m_pCamera = nullptr;
 		ICameraManipulator* m_pCameraManipulator = nullptr;
-		CMouseHandler m_MouseHandler;
-		CKeyboardHandler m_KeyboardHandler;
+		CMouseHandler* m_pMouseHandler;
+		CKeyboardHandler* m_pKeyboardHandler;
 
 		bool m_IsTrackBall;
 
